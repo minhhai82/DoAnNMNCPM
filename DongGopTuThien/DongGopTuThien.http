@@ -1,0 +1,6 @@
+@DongGopTuThien_HostAddress = http://localhost:5133
+
+GET {{DongGopTuThien_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
