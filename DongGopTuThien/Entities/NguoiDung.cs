@@ -21,9 +21,11 @@ public partial class NguoiDung
 
     public byte[]? GiayPhep { get; set; }
 
-    public int TrangThai { get; set; }
+    public int TrangThai { get; set; } // 0 - not verify, 1 - verified
 
-    public int Loai { get; set; }
+    public int Loai { get; set; } // 0 - admin, 1 - nguoi dong gop hoac xin ho tro/ 2- to chuc
+
+    public string FirebaseUid { get; set; } = null!;
 
     public virtual ICollection<BinhLuan> BinhLuans { get; set; } = new List<BinhLuan>();
 
