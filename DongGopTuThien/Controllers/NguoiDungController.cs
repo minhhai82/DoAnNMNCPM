@@ -9,10 +9,12 @@ namespace DongGopTuThien.Controllers
     public class NguoiDungController : ControllerBase
     {
         private DaQltuThienContext _context;
+        private readonly IJwtService _jwtService;
 
-        public NguoiDungController(DaQltuThienContext ctx)
+        public NguoiDungController(DaQltuThienContext ctx, IJwtService jwtService)
         {
             _context = ctx;
+            _jwtService = jwtService;
         }
 
         [HttpGet]
@@ -34,6 +36,7 @@ namespace DongGopTuThien.Controllers
                 string.IsNullOrEmpty(request.Email) ||
                 string.IsNullOrEmpty(request.DienThoai) ||
                 string.IsNullOrEmpty(request.MatKhau) ||
+                request.Loai == null
                 )
             {
                 return BadRequest("Invalid");
@@ -49,15 +52,18 @@ namespace DongGopTuThien.Controllers
                     DienThoai = request.DienThoai,
                     TenDayDu = request.TenDayDu,
                     DiaChi = request.DiaChi,
-                    TrangThai = TrangThai,
+                    TrangThai = TrangThai.ChuaXacThuc,
                     Loai = request.Loai,
+                    TenDangNhap = request.Email,
                 };
 
                 _context.NguoiDungs.Add(nguoiDung);
                 await _context.SaveChangesAsync();
-                var nguoiDungId = nguoiDung.IdnguoiDung;
 
-                return Ok(new { NguoiDungId = nguoiDungId, Token = customToken });
+                // send SMS
+
+                var token = _jwtService.GenerateToken(nguoiDung.IdnguoiDung, nguoiDung.Email);
+                return Ok(new { nguoiDungId = nguoiDung.IdnguoiDung, Token = token });
             }
             catch (Exception ex)
             {
