@@ -25,7 +25,6 @@ public partial class NguoiDung
 
     public int Loai { get; set; } // 0 - admin, 1 - nguoi dong gop hoac xin ho tro/ 2- to chuc
 
-    public string FirebaseUid { get; set; } = null!;
 
     public virtual ICollection<BinhLuan> BinhLuans { get; set; } = new List<BinhLuan>();
 
