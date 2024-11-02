@@ -11,10 +11,13 @@ namespace DongGopTuThien.Controllers
         private DaQltuThienContext _context;
         private readonly IJwtService _jwtService;
 
-        public NguoiDungController(DaQltuThienContext ctx, IJwtService jwtService)
+        private readonly IOTPService _otpService;
+
+        public NguoiDungController(DaQltuThienContext ctx, IJwtService jwtService, IOTPService optService)
         {
             _context = ctx;
             _jwtService = jwtService;
+            _otpService = optService;
         }
 
         [HttpGet]
@@ -35,8 +38,7 @@ namespace DongGopTuThien.Controllers
                 request == null ||
                 string.IsNullOrEmpty(request.Email) ||
                 string.IsNullOrEmpty(request.DienThoai) ||
-                string.IsNullOrEmpty(request.MatKhau) ||
-                request.Loai == null
+                string.IsNullOrEmpty(request.MatKhau)
                 )
             {
                 return BadRequest("Invalid");
@@ -44,31 +46,38 @@ namespace DongGopTuThien.Controllers
 
             try
             {
-                // Create NguoiDung
-                var nguoiDung = new NguoiDung
+               using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
-                    Email = request.Email,
-                    MatKhau = request.MatKhau,
-                    DienThoai = request.DienThoai,
-                    TenDayDu = request.TenDayDu,
-                    DiaChi = request.DiaChi,
-                    TrangThai = TrangThai.ChuaXacThuc,
-                    Loai = request.Loai,
-                    TenDangNhap = request.Email,
-                };
+                    // Create NguoiDung
+                    var nguoiDung = new NguoiDung
+                    {
+                        Email = request.Email,
+                        MatKhau = request.MatKhau,
+                        DienThoai = request.DienThoai,
+                        TenDayDu = request.TenDayDu,
+                        DiaChi = request.DiaChi,
+                        TrangThai = TrangThai.ChuaXacThuc,
+                        Loai = request.Loai,
+                        TenDangNhap = request.Email,
+                    };
 
-                _context.NguoiDungs.Add(nguoiDung);
-                await _context.SaveChangesAsync();
+                    _context.NguoiDungs.Add(nguoiDung);
+                    await _context.SaveChangesAsync();
 
-                // send SMS
+                    // send SMS
+                    _otpService.SendOtp(request.DienThoai);
 
-                var token = _jwtService.GenerateToken(nguoiDung.IdnguoiDung, nguoiDung.Email);
-                return Ok(new { nguoiDungId = nguoiDung.IdnguoiDung, Token = token });
+                    var token = _jwtService.GenerateToken(nguoiDung.IdnguoiDung, nguoiDung.Email);
+
+                    // Complete the transaction
+                    await transaction.CommitAsync();
+
+                    return Ok(new { nguoiDungId = nguoiDung.IdnguoiDung, Token = token });
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-
+                Console.WriteLine(ex.Message);
                 return BadRequest(new { Error = ex.Message });
             }
         }
