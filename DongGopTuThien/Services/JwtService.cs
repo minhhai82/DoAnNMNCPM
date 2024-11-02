@@ -18,6 +18,7 @@ public class JwtSettings
 public interface IJwtService
 {
     string GenerateToken(int NguoiDungId, string Email);
+    ClaimsPrincipal VerifyToken(string token);
 
 }
 
@@ -39,7 +40,7 @@ public class JwtService : IJwtService
         var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, NguoiDungId.ToString()),
-            new Claim(JwtRegisteredClaimNames.UniqueName, Email),
+            new Claim(JwtRegisteredClaimNames.Email, Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -52,5 +53,27 @@ public class JwtService : IJwtService
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+     public ClaimsPrincipal VerifyToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var validationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero
+        };
+
+        try
+        {
+            return tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+        }
+        catch (SecurityTokenException)
+        {
+            return null; // Token is invalid
+        }
     }
 }

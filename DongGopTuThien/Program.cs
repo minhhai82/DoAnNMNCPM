@@ -35,6 +35,8 @@ namespace DongGopTuThien
                 app.UseSwaggerUI();
             }
 
+            app.UseMiddleware<JwtMiddleware>();
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
