@@ -1,10 +1,6 @@
 ﻿using DongGopTuThien.Entities;
 using Microsoft.EntityFrameworkCore;
 
-// firebase
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-
 namespace DongGopTuThien
 {
     public class Program
@@ -13,10 +9,6 @@ namespace DongGopTuThien
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromFile("./credentials/daqltv2024-firebase.json"),
-            });
 
             // Add services to the container.
 
