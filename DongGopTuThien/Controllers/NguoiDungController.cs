@@ -1,6 +1,7 @@
 ﻿using DongGopTuThien.Entities;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
 
 namespace DongGopTuThien.Controllers
 {
@@ -49,10 +50,11 @@ namespace DongGopTuThien.Controllers
                using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
                     // Create NguoiDung
+                    var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.MatKhau);
                     var nguoiDung = new NguoiDung
                     {
                         Email = request.Email,
-                        MatKhau = request.MatKhau,
+                        MatKhau = hashedPassword,
                         DienThoai = request.DienThoai,
                         TenDayDu = request.TenDayDu,
                         DiaChi = request.DiaChi,
@@ -72,7 +74,7 @@ namespace DongGopTuThien.Controllers
                     // Complete the transaction
                     await transaction.CommitAsync();
 
-                    return Ok(new { nguoiDungId = nguoiDung.IdnguoiDung, Token = token });
+                    return StatusCode(201, new { nguoiDungId = nguoiDung.IdnguoiDung, Token = token });
                 }
             }
             catch (Exception ex)
@@ -82,6 +84,37 @@ namespace DongGopTuThien.Controllers
             }
         }
 
+        // api/NguoiDung/Login
+        //{ "Email": "test01@email.com", "Matkhau": "123456" }
+        // 200, {Token: 'token'}
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            //validate
+            if (request == null || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.MatKhau))
+            {
+                return BadRequest();
+            }
+
+            var nguoiDung = await _context.NguoiDungs.FirstOrDefaultAsync(u => u.Email == request.Email);
+
+            if (nguoiDung == null)
+            {
+                return Unauthorized(new { Error = "Invalid email or password." });
+            }
+
+            // Validate password
+            var isValidPassword = BCrypt.Net.BCrypt.Verify(request.MatKhau, nguoiDung.MatKhau);
+            if (!isValidPassword)
+            {
+                return Unauthorized(new { Error = "Invalid email or password." });
+            }
+
+            // Generate token
+            var token = _jwtService.GenerateToken(nguoiDung.IdnguoiDung, nguoiDung.Email);
+
+            return Ok(new { Token = token });
+        }
 
     }
 }
