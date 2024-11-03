@@ -32,7 +32,7 @@ namespace DongGopTuThien.Controllers
         // POST /api/NguoiDung/register
         // {
         //     "Email": "test01@email.com",
-        //     "DienThoai": "+84915395609",
+        //     "DienThoai": "+8491xxxxxx",
         //     "DiaChi": "HCM",
         //     "TenDayDu": "Test01",
         //     "Matkhau": "123456",
