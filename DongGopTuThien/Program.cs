@@ -16,7 +16,7 @@ namespace DongGopTuThien
 
             var twilioConfig = builder.Configuration.GetSection("Twilio").Get<TwilioConfig>();
 
-            builder.Services.AddScoped<IOTPService>(provider => new OTPService(twilioConfig.AccountSid, twilioConfig.AuthToken, twilioConfig.ServiceId));
+            builder.Services.AddScoped<IOTPService, OTPService>(provider => new OTPService(twilioConfig.AccountSid, twilioConfig.AuthToken, twilioConfig.ServiceId));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

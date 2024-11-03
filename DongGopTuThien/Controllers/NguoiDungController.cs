@@ -116,5 +116,55 @@ namespace DongGopTuThien.Controllers
             return Ok(new { Token = token });
         }
 
+        // api/NguoiDung/verifyOtp
+        [HttpPut("verifyOtp")]
+        //{DienThoai: "+841232", Code: "123456"}
+        //200
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpRequest request)
+        {
+            if (request == null ||
+                   string.IsNullOrEmpty(request.DienThoai) ||
+                   string.IsNullOrEmpty(request.Code))
+            {
+                return BadRequest();
+            }
+
+
+            // Access user claims from JWT
+            var userIdClaim = User.FindFirst(ClaimTypes.Sub);
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            var nguoiDung = await _context.NguoiDungs.FirstOrDefaultAsync(u => u.IdnguoiDung == int.Parse(userIdClaim.Value));
+
+            if (nguoiDung == null || nguoiDung.DienThoai != request.DienThoai)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+
+                var otpCheck = await _otpService.VerifyOtp(request.DienThoai, request.Code);
+                if (otpCheck)
+                {
+                    nguoiDung.TrangThai = TrangThai.XacThucDienThoai;
+                    _context.NguoiDungs.Update(nguoiDung);
+                    await _context.SaveChangesAsync();
+
+                    return Ok();
+                }
+
+                return UnprocessableEntity();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                return UnprocessableEntity();
+            }
+        }
     }
 }
