@@ -128,6 +128,7 @@ namespace DongGopTuThien.Controllers
 
         // api/NguoiDung/verifyOtp
         [HttpPut("verifyOtp")]
+        [Authorize]
         //{DienThoai: "+841232", Code: "123456"}
         //200
         public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpRequest request)
@@ -139,15 +140,9 @@ namespace DongGopTuThien.Controllers
                 return BadRequest();
             }
 
+           var nguoiDung = HttpContext.Items["CurrentUser"] as NguoiDung;
 
-            // Access user claims from JWT
-            var userIdClaim = User.FindFirst(ClaimTypes.Sub);
-            if (userIdClaim == null)
-            {
-                return Unauthorized();
-            }
-
-            var nguoiDung = await _context.NguoiDungs.FirstOrDefaultAsync(u => u.IdnguoiDung == int.Parse(userIdClaim.Value));
+            Console.WriteLine(nguoiDung.DienThoai);
 
             if (nguoiDung == null || nguoiDung.DienThoai != request.DienThoai)
             {
@@ -179,24 +174,13 @@ namespace DongGopTuThien.Controllers
 
         // api/NguoiDung/{id}/submitPaper
         [HttpPut("{id}/submitPaper")]
+        [Authorize([3])]
         public async Task<IActionResult> SubmitPaper(int id, IFormFile file)
         {
             if (file == null || file.Length == 0 || file.ContentType != "image/jpeg")
                 return BadRequest();
 
-            // Access user claims from JWT
-            var userIdClaim = User.FindFirst(ClaimTypes.Sub);
-            if (userIdClaim == null)
-            {
-                return Unauthorized();
-            }
-
-            var nguoiDung = await _context.NguoiDungs.FirstOrDefaultAsync(u => u.IdnguoiDung == int.Parse(userIdClaim.Value));
-
-            if (nguoiDung == null || nguoiDung.TrangThai != TrangThai.XacThucDienThoai || nguoiDung.Loai != Loai.ToChucTuThien)
-            {
-                return Unauthorized();
-            }
+            var nguoiDung = HttpContext.Items["CurrentUser"] as NguoiDung;
 
             // Convert the file to byte array
             using (var memoryStream = new MemoryStream())
@@ -216,21 +200,10 @@ namespace DongGopTuThien.Controllers
         }
 
         [HttpGet("{id}/downloadPaper")]
+        [Authorize]
         public async Task<IActionResult> DownloadPaper(int id)
         {
-            // Access user claims from JWT
-            var userIdClaim = User.FindFirst(ClaimTypes.Sub);
-            if (userIdClaim == null)
-            {
-                return Unauthorized();
-            }
-
-            var nguoiDungHienTai = await _context.NguoiDungs.FirstOrDefaultAsync(u => u.IdnguoiDung == int.Parse(userIdClaim.Value));
-
-            if (nguoiDungHienTai == null)
-            {
-                return Unauthorized();
-            }
+            var nguoiDungHienTai = HttpContext.Items["CurrentUser"] as NguoiDung;
 
             var nguoiDung = await _context.NguoiDungs.FindAsync(id);
             if (nguoiDung == null || nguoiDung.GiayPhep == null)
