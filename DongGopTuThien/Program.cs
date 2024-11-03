@@ -1,10 +1,6 @@
 ﻿using DongGopTuThien.Entities;
 using Microsoft.EntityFrameworkCore;
 
-// firebase
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-
 namespace DongGopTuThien
 {
     public class Program
@@ -13,12 +9,14 @@ namespace DongGopTuThien
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromFile("./credentials/daqltv2024-firebase.json"),
-            });
 
             // Add services to the container.
+            builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+            builder.Services.AddScoped<IJwtService, JwtService>();
+
+            var twilioConfig = builder.Configuration.GetSection("Twilio").Get<TwilioConfig>();
+
+            builder.Services.AddScoped<IOTPService, OTPService>(provider => new OTPService(twilioConfig.AccountSid, twilioConfig.AuthToken, twilioConfig.ServiceId));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -36,6 +34,8 @@ namespace DongGopTuThien
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseHttpsRedirection();
 

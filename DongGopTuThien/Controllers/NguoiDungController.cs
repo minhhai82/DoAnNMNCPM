@@ -1,7 +1,7 @@
 ﻿using DongGopTuThien.Entities;
 using Microsoft.AspNetCore.Mvc;
-using FirebaseAdmin.Auth;
-
+using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
 
 namespace DongGopTuThien.Controllers
 {
@@ -10,10 +10,15 @@ namespace DongGopTuThien.Controllers
     public class NguoiDungController : ControllerBase
     {
         private DaQltuThienContext _context;
+        private readonly IJwtService _jwtService;
 
-        public NguoiDungController(DaQltuThienContext ctx)
+        private readonly IOTPService _otpService;
+
+        public NguoiDungController(DaQltuThienContext ctx, IJwtService jwtService, IOTPService optService)
         {
             _context = ctx;
+            _jwtService = jwtService;
+            _otpService = optService;
         }
 
         [HttpGet]
@@ -34,8 +39,7 @@ namespace DongGopTuThien.Controllers
                 request == null ||
                 string.IsNullOrEmpty(request.Email) ||
                 string.IsNullOrEmpty(request.DienThoai) ||
-                string.IsNullOrEmpty(request.MatKhau) ||
-                string.IsNullOrEmpty(request.FirebaseUid)
+                string.IsNullOrEmpty(request.MatKhau)
                 )
             {
                 return BadRequest("Invalid");
@@ -43,58 +47,193 @@ namespace DongGopTuThien.Controllers
 
             try
             {
-                //Get a firebase user from FirebaseUid
-                var firebaseUser = await FirebaseAuth.DefaultInstance.GetUserAsync(request.FirebaseUid);
-                var firebaseUpdate = new UserRecordArgs
+               using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
-                    Uid = request.FirebaseUid,  // Firebase UID of the user
-                    Email = request.Email,
-                    Password = request.MatKhau
-                };
-                await FirebaseAuth.DefaultInstance.UpdateUserAsync(firebaseUpdate);
+                    // Create NguoiDung
+                    var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.MatKhau);
+                    var nguoiDung = new NguoiDung
+                    {
+                        Email = request.Email,
+                        MatKhau = hashedPassword,
+                        DienThoai = request.DienThoai,
+                        TenDayDu = request.TenDayDu,
+                        DiaChi = request.DiaChi,
+                        TrangThai = TrangThai.ChuaXacThuc,
+                        Loai = request.Loai,
+                        TenDangNhap = request.Email,
+                    };
 
-                // Create NguoiDung
-                // If To Chuc -> trang thai 0 unverified, Otherwise trang thai 1 verified
-                var TrangThai = request.Loai == 2 ? 0 : 1;
-                var nguoiDung = new NguoiDung
-                {
-                    Email = request.Email,
-                    MatKhau = request.MatKhau,
-                    DienThoai = request.DienThoai,
-                    TenDayDu = request.TenDayDu,
-                    DiaChi = request.DiaChi,
-                    TrangThai = TrangThai,
-                    Loai = request.Loai,
-                    FirebaseUid = request.FirebaseUid,
-                };
+                    _context.NguoiDungs.Add(nguoiDung);
+                    await _context.SaveChangesAsync();
 
-                _context.NguoiDungs.Add(nguoiDung);
-                await _context.SaveChangesAsync();
-                var nguoiDungId = nguoiDung.IdnguoiDung;
+                    // send SMS
+                    _otpService.SendOtp(request.DienThoai);
 
-                //Generate a custom token for the newly created user
-                var customToken = await FirebaseAuth.DefaultInstance.CreateCustomTokenAsync(firebaseUser.Uid);
+                    var token = _jwtService.GenerateToken(nguoiDung.IdnguoiDung, nguoiDung.Email);
 
+                    // Complete the transaction
+                    await transaction.CommitAsync();
 
-                return Ok(new { NguoiDungId = nguoiDungId, Token = customToken });
+                    return StatusCode(201, new { nguoiDungId = nguoiDung.IdnguoiDung, Token = token });
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-
+                Console.WriteLine(ex.Message);
                 return BadRequest(new { Error = ex.Message });
             }
         }
 
-        // [NONE] Endpoint to login
-        // handle by firebase on client side. After successfully signin with Firebase on client
-        // use Token send with BE request. E.g
-        // fetch(apiUrl, {method: 'GET', headers: {'Authorization': `Bearer ${ token}`, 'Content-Type': 'application/json' }});
+        // api/NguoiDung/Login
+        //{ "Email": "test01@email.com", "Matkhau": "123456" }
+        // 200, {Token: 'token'}
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            //validate
+            if (request == null || string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.MatKhau))
+            {
+                return BadRequest();
+            }
+
+            var nguoiDung = await _context.NguoiDungs.FirstOrDefaultAsync(u => u.Email == request.Email);
+
+            if (nguoiDung == null)
+            {
+                return Unauthorized(new { Error = "Invalid email or password." });
+            }
+
+            // Validate password
+            var isValidPassword = BCrypt.Net.BCrypt.Verify(request.MatKhau, nguoiDung.MatKhau);
+            if (!isValidPassword)
+            {
+                return Unauthorized(new { Error = "Invalid email or password." });
+            }
+
+            // Generate token
+            var token = _jwtService.GenerateToken(nguoiDung.IdnguoiDung, nguoiDung.Email);
+
+            return Ok(new { Token = token });
+        }
+
+        // api/NguoiDung/verifyOtp
+        [HttpPut("verifyOtp")]
+        //{DienThoai: "+841232", Code: "123456"}
+        //200
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpRequest request)
+        {
+            if (request == null ||
+                   string.IsNullOrEmpty(request.DienThoai) ||
+                   string.IsNullOrEmpty(request.Code))
+            {
+                return BadRequest();
+            }
 
 
+            // Access user claims from JWT
+            var userIdClaim = User.FindFirst(ClaimTypes.Sub);
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
 
-        // Endpoint to submit giay phep
+            var nguoiDung = await _context.NguoiDungs.FirstOrDefaultAsync(u => u.IdnguoiDung == int.Parse(userIdClaim.Value));
 
+            if (nguoiDung == null || nguoiDung.DienThoai != request.DienThoai)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+
+                var otpCheck = await _otpService.VerifyOtp(request.DienThoai, request.Code);
+                if (otpCheck)
+                {
+                    nguoiDung.TrangThai = TrangThai.XacThucDienThoai;
+                    _context.NguoiDungs.Update(nguoiDung);
+                    await _context.SaveChangesAsync();
+
+                    return Ok();
+                }
+
+                return UnprocessableEntity();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                return UnprocessableEntity();
+            }
+        }
+
+        // api/NguoiDung/{id}/submitPaper
+        [HttpPut("{id}/submitPaper")]
+        public async Task<IActionResult> SubmitPaper(int id, IFormFile file)
+        {
+            if (file == null || file.Length == 0 || file.ContentType != "image/jpeg")
+                return BadRequest();
+
+            // Access user claims from JWT
+            var userIdClaim = User.FindFirst(ClaimTypes.Sub);
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            var nguoiDung = await _context.NguoiDungs.FirstOrDefaultAsync(u => u.IdnguoiDung == int.Parse(userIdClaim.Value));
+
+            if (nguoiDung == null)
+            {
+                return Unauthorized();
+            }
+
+            // Convert the file to byte array
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                nguoiDung.GiayPhep = memoryStream.ToArray();
+            }
+
+            // TAM THOI AUTO VERIFIED 
+            nguoiDung.TrangThai = TrangThai.XacThucGiayPhep;
+
+
+            _context.NguoiDungs.Update(nguoiDung);
+            await _context.SaveChangesAsync();
+
+            return Ok("Image uploaded successfully.");
+        }
+
+        [HttpGet("{id}/downloadPaper")]
+        public async Task<IActionResult> DownloadPaper(int id)
+        {
+            // Access user claims from JWT
+            var userIdClaim = User.FindFirst(ClaimTypes.Sub);
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            var nguoiDungHienTai = await _context.NguoiDungs.FirstOrDefaultAsync(u => u.IdnguoiDung == int.Parse(userIdClaim.Value));
+
+            if (nguoiDungHienTai == null)
+            {
+                return Unauthorized();
+            }
+
+            var nguoiDung = await _context.NguoiDungs.FindAsync(id);
+            if (nguoiDung == null || nguoiDung.GiayPhep == null)
+                return NotFound("File not found.");
+
+            string contentType = "image/jpeg";
+            // Optionally, provide a file name
+            string fileName = $"giayto-{id}.jpg";
+
+
+            // Return the file as a response
+            return File(nguoiDung.GiayPhep, contentType, fileName);
+        }
 
     }
 }

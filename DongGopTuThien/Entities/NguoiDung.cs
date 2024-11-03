@@ -15,17 +15,14 @@ public partial class NguoiDung
 
     public string Email { get; set; } = null!;
 
-    public int TenDangNhap { get; set; }
+    public string TenDangNhap { get; set; }
 
     public string MatKhau { get; set; } = null!;
 
     public byte[]? GiayPhep { get; set; }
 
-    public int TrangThai { get; set; } // 0 - not verify, 1 - verified
-
-    public int Loai { get; set; } // 0 - admin, 1 - nguoi dong gop hoac xin ho tro/ 2- to chuc
-
-    public string FirebaseUid { get; set; } = null!;
+    public TrangThai TrangThai { get; set; }
+    public Loai Loai { get; set; }
 
     public virtual ICollection<BinhLuan> BinhLuans { get; set; } = new List<BinhLuan>();
 
@@ -40,4 +37,20 @@ public partial class NguoiDung
     public virtual ICollection<TaiTro> TaiTros { get; set; } = new List<TaiTro>();
 
     public virtual ICollection<XinTaiTro> XinTaiTros { get; set; } = new List<XinTaiTro>();
+}
+
+public enum TrangThai {
+    ChuaXacThuc = 0,
+    XacThucDienThoai = 1,
+    XacThucGiayPhep = 2,
+
+}
+
+public enum Loai {
+    Admin = 0,
+    NguoiDongGop = 1,
+
+    NguoiXinTaiTro = 2,
+
+    ToChucTuThien = 3,
 }
