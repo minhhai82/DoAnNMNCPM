@@ -30,6 +30,16 @@ namespace DongGopTuThien.Controllers
 
         // Endpoint to register a user
         // POST /api/NguoiDung/register
+        // {
+        //     "Email": "test01@email.com",
+        //     "DienThoai": "+84915395609",
+        //     "DiaChi": "HCM",
+        //     "TenDayDu": "Test01",
+        //     "Matkhau": "123456",
+        //     "Loai": 1,
+        //     "TenDangNhap": "test01@email.com"
+        // }
+        // 201, { nguoiDungId: 1, Token: 'token' }
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] NguoiDung request)
         {
