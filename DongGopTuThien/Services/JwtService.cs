@@ -6,6 +6,11 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
+public static class ClaimTypes
+{
+    public const string Sub = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+    public const string Email = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+}
 
 public class JwtSettings
 {
@@ -71,8 +76,9 @@ public class JwtService : IJwtService
         {
             return tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
         }
-        catch (SecurityTokenException)
+        catch (Exception e)
         {
+            Console.WriteLine(e.Message);
             return null; // Token is invalid
         }
     }
