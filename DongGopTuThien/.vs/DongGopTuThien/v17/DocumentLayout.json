@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\controllers\\donggopscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|solutionrelative:controllers\\donggopscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\controllers\\nguoidungcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|solutionrelative:controllers\\nguoidungcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\attributes\\authorizeuserattributes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|solutionrelative:attributes\\authorizeuserattributes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Entities\\DaQltuThienContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Entities\\DaQltuThienContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\controllers\\authorizeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|solutionrelative:controllers\\authorizeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|solutionrelative:controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\services\\jwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|solutionrelative:services\\jwtservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\middlewares\\jwtmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|solutionrelative:middlewares\\jwtmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -25,6 +41,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\donggoptuthien.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
       "RelativeMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|solutionrelative:donggoptuthien.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|d:\\hoc tap\\nhap mon cong nghe phan m\u00EAm\\doan\\doannmncpm\\donggoptuthien\\entities\\daqltuthiencontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{475F292E-C48B-4B3A-92FE-AA3D1CACD117}|DongGopTuThien.csproj|solutionrelative:entities\\daqltuthiencontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,19 +59,97 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "DongGopsController.cs",
+              "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Controllers\\DongGopsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DongGopsController.cs",
+              "ToolTip": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Controllers\\DongGopsController.cs",
+              "RelativeToolTip": "Controllers\\DongGopsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T13:48:09.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "Controllers\\WeatherForecastController.cs",
+              "ToolTip": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "Controllers\\WeatherForecastController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T13:38:38.072Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AuthorizeUserAttributes.cs",
+              "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Attributes\\AuthorizeUserAttributes.cs",
+              "RelativeDocumentMoniker": "Attributes\\AuthorizeUserAttributes.cs",
+              "ToolTip": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Attributes\\AuthorizeUserAttributes.cs",
+              "RelativeToolTip": "Attributes\\AuthorizeUserAttributes.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAIwAgAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T13:06:17.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthorizeAttribute.cs",
+              "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Controllers\\AuthorizeAttribute.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthorizeAttribute.cs",
+              "ToolTip": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Controllers\\AuthorizeAttribute.cs",
+              "RelativeToolTip": "Controllers\\AuthorizeAttribute.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T12:52:29.13Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "JwtService.cs",
+              "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Services\\JwtService.cs",
+              "RelativeDocumentMoniker": "Services\\JwtService.cs",
+              "ToolTip": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Services\\JwtService.cs",
+              "RelativeToolTip": "Services\\JwtService.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAA4wC4AAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T09:16:20.217Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "JwtMiddleware.cs",
+              "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Middlewares\\JwtMiddleware.cs",
+              "RelativeDocumentMoniker": "Middlewares\\JwtMiddleware.cs",
+              "ToolTip": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Middlewares\\JwtMiddleware.cs",
+              "RelativeToolTip": "Middlewares\\JwtMiddleware.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T08:44:46.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "NguoiDungController.cs",
               "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Controllers\\NguoiDungController.cs",
               "RelativeDocumentMoniker": "Controllers\\NguoiDungController.cs",
               "ToolTip": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Controllers\\NguoiDungController.cs",
               "RelativeToolTip": "Controllers\\NguoiDungController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAIUAAAAAAAAAAADgv5UAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-23T09:55:08.291Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 10,
               "Title": "DaQltuThienContext.cs",
               "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Entities\\DaQltuThienContext.cs",
               "RelativeDocumentMoniker": "Entities\\DaQltuThienContext.cs",
@@ -59,12 +157,11 @@
               "RelativeToolTip": "Entities\\DaQltuThienContext.cs",
               "ViewState": "AgIAACQAAAAAAAAAAAA1wCoAAACmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T09:37:21.623Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-23T09:37:21.623Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "DaQltuThienContext.cs",
               "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\DaQltuThienContext.cs",
               "RelativeDocumentMoniker": "DaQltuThienContext.cs",
@@ -72,25 +169,11 @@
               "RelativeToolTip": "DaQltuThienContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T08:36:10.231Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-23T08:36:10.231Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T02:23:05.474Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -98,20 +181,18 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-23T02:22:39.532Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-23T02:22:39.532Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "DongGopTuThien",
               "DocumentMoniker": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\DongGopTuThien.csproj",
               "RelativeDocumentMoniker": "DongGopTuThien.csproj",
               "ToolTip": "D:\\Hoc tap\\Nhap mon cong nghe phan m\u00EAm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\DongGopTuThien.csproj",
               "RelativeToolTip": "DongGopTuThien.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-10-23T01:35:23.137Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-23T01:35:23.137Z"
             }
           ]
         }

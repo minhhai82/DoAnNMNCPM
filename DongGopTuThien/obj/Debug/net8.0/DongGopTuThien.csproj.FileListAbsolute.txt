@@ -141,3 +141,8 @@ D:\Hoc tap\Nhap mon cong nghe phan mêm\DoAn\DoAnNMNCPM\DongGopTuThien\bin\Debug
 D:\Hoc tap\Nhap mon cong nghe phan mêm\DoAn\DoAnNMNCPM\DongGopTuThien\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 D:\Hoc tap\Nhap mon cong nghe phan mêm\DoAn\DoAnNMNCPM\DongGopTuThien\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\Hoc tap\Nhap mon cong nghe phan mêm\DoAn\DoAnNMNCPM\DongGopTuThien\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\Hoc tap\Nhap mon cong nghe phan mêm\DoAn\DoAnNMNCPM\DongGopTuThien\bin\Debug\net8.0\credentials\daqltv2024-firebase.json
+D:\Hoc tap\Nhap mon cong nghe phan mêm\DoAn\DoAnNMNCPM\DongGopTuThien\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\Hoc tap\Nhap mon cong nghe phan mêm\DoAn\DoAnNMNCPM\DongGopTuThien\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Hoc tap\Nhap mon cong nghe phan mêm\DoAn\DoAnNMNCPM\DongGopTuThien\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Hoc tap\Nhap mon cong nghe phan mêm\DoAn\DoAnNMNCPM\DongGopTuThien\bin\Debug\net8.0\Twilio.dll

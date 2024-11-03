@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/huongmac/code/huong/VB2/DoAnNMNCPM/DongGopTuThien/DongGopTuThien.csproj": {}
+    "D:\\Hoc tap\\Nhap mon cong nghe phan mêm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\DongGopTuThien.csproj": {}
   },
   "projects": {
-    "/Users/huongmac/code/huong/VB2/DoAnNMNCPM/DongGopTuThien/DongGopTuThien.csproj": {
+    "D:\\Hoc tap\\Nhap mon cong nghe phan mêm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\DongGopTuThien.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/huongmac/code/huong/VB2/DoAnNMNCPM/DongGopTuThien/DongGopTuThien.csproj",
+        "projectUniqueName": "D:\\Hoc tap\\Nhap mon cong nghe phan mêm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\DongGopTuThien.csproj",
         "projectName": "DongGopTuThien",
-        "projectPath": "/Users/huongmac/code/huong/VB2/DoAnNMNCPM/DongGopTuThien/DongGopTuThien.csproj",
-        "packagesPath": "/Users/huongmac/.nuget/packages/",
-        "outputPath": "/Users/huongmac/code/huong/VB2/DoAnNMNCPM/DongGopTuThien/obj/",
+        "projectPath": "D:\\Hoc tap\\Nhap mon cong nghe phan mêm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\DongGopTuThien.csproj",
+        "packagesPath": "C:\\Users\\Hai Vu\\.nuget\\packages\\",
+        "outputPath": "D:\\Hoc tap\\Nhap mon cong nghe phan mêm\\DoAn\\DoAnNMNCPM\\DongGopTuThien\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/huongmac/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Hai Vu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -93,7 +100,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
