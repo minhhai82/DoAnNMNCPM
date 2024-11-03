@@ -183,7 +183,7 @@ namespace DongGopTuThien.Controllers
 
             var nguoiDung = await _context.NguoiDungs.FirstOrDefaultAsync(u => u.IdnguoiDung == int.Parse(userIdClaim.Value));
 
-            if (nguoiDung == null)
+            if (nguoiDung == null || nguoiDung.TrangThai != TrangThai.XacThucDienThoai || nguoiDung.Loai != Loai.ToChucTuThien)
             {
                 return Unauthorized();
             }
