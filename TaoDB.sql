@@ -9,7 +9,7 @@ CREATE TABLE NguoiDung(
 	DiaChi nvarchar(250) NOT NULL,
 	DienThoai nvarchar(20) NOT NULL ,
 	Email nvarchar(50) NOT NULL,
-	TenDangNhap int NOT NULL,
+	TenDangNhap nvarchar(50) NOT NULL,
 	MatKhau nvarchar(100) NOT NULL,
 	GiayPhep varbinary(max) NULL,
 	TrangThai int NOT NULL DEFAULT(0),

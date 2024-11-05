@@ -25,7 +25,7 @@ namespace DongGopTuThien.Controllers
 
 
         // GET: api/DongGopsByChienDich
-        [HttpGet]
+        [HttpGet("ByChienDich")]
         public async Task<ActionResult<IEnumerable<DongGop>>> GetDongGopsByChienDich(int idChienDich)
         {
             return await _context.DongGops.Where(e => e.IdchienDich == idChienDich)
@@ -34,7 +34,7 @@ namespace DongGopTuThien.Controllers
 
 
         // GET: api/DongGopsByChienDich
-        [HttpGet]
+        [HttpGet("ByNguoiTaiTro")]
         public async Task<ActionResult<IEnumerable<DongGop>>> GetDongGopsByNguoiTaiTro(int idNguoiTaiTro)
         {
             return await _context.DongGops.Where(e => e.IdnguoiChuyen == idNguoiTaiTro)
@@ -42,7 +42,7 @@ namespace DongGopTuThien.Controllers
         }
 
         // GET: api/GetTop10DongGops
-        [HttpGet]
+        [HttpGet("Top10DongGops")]
         public async Task<ActionResult<IEnumerable<DongGop>>> GetTop10DongGops()
         {
             return await _context.DongGops.OrderByDescending(e => e.NgayDongGop)
@@ -51,7 +51,7 @@ namespace DongGopTuThien.Controllers
         }
 
         // GET: api/GetTop10DongGopsByChienDich
-        [HttpGet]
+        [HttpGet("Top10DongGopsByChienDich")]
         public async Task<ActionResult<IEnumerable<DongGop>>> GetTop10DongGopsByChienDich(int idChienDich)
         {
             return await _context.DongGops.Where(e => e.IdchienDich == idChienDich).OrderByDescending(e => e.NgayDongGop)
@@ -60,7 +60,7 @@ namespace DongGopTuThien.Controllers
         }
 
         // GET: api/GetTop10DongGopsByNguoiTaiTtro
-        [HttpGet]
+        [HttpGet("Top10DongGopsByNguoiTaiTtro")]
         public async Task<ActionResult<IEnumerable<DongGop>>> GetTop10DongGopsByNguoiTaiTtro(int idNguoiTaiTro)
         {
             return await _context.DongGops.Where(e => e.IdnguoiChuyen == idNguoiTaiTro).OrderByDescending(e => e.NgayDongGop)
