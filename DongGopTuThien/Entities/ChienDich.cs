@@ -21,7 +21,7 @@ public partial class ChienDich
 
     public decimal ThucChi { get; set; }
 
-    public int TrangThai { get; set; }
+    public TrangThaiChienDich TrangThai { get; set; }
 
     public int IdtoChuc { get; set; }
 
@@ -36,4 +36,11 @@ public partial class ChienDich
     public virtual ICollection<TkchienDich> TkchienDiches { get; set; } = new List<TkchienDich>();
 
     public virtual ICollection<XinTaiTro> XinTaiTros { get; set; } = new List<XinTaiTro>();
+}
+public enum TrangThaiChienDich
+{
+    Draft = 0,
+    Active = 1,
+    Cancelled = 2,
+    Completed = 3
 }
