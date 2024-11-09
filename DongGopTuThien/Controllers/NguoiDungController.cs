@@ -2,6 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using System.IO;
+
 
 namespace DongGopTuThien.Controllers
 {
@@ -123,7 +127,7 @@ namespace DongGopTuThien.Controllers
             // Generate token
             var token = _jwtService.GenerateToken(nguoiDung.IdnguoiDung, nguoiDung.Email);
 
-            return Ok(new { Token = token });
+            return Ok(new { NguoiDungId = nguoiDung.IdnguoiDung, Token = token });
         }
 
         // api/NguoiDung/verifyOtp
@@ -172,12 +176,13 @@ namespace DongGopTuThien.Controllers
             }
         }
 
-        // api/NguoiDung/{id}/submitPaper
-        [HttpPut("{id}/submitPaper")]
+        // api/NguoiDung/submitPaper
+        [HttpPut("submitPaper")]
         [Authorize([3])]
-        public async Task<IActionResult> SubmitPaper(int id, IFormFile file)
+        public async Task<IActionResult> SubmitPaper(IFormFile file)
         {
-            if (file == null || file.Length == 0 || file.ContentType != "image/jpeg")
+            if (file == null || file.Length == 0 ||
+                (file.ContentType != "image/jpeg" && file.ContentType != "image/png" && file.ContentType != "image/jpg"))
                 return BadRequest();
 
             var nguoiDung = HttpContext.Items["CurrentUser"] as NguoiDung;
@@ -199,6 +204,7 @@ namespace DongGopTuThien.Controllers
             return Ok("Image uploaded successfully.");
         }
 
+
         [HttpGet("{id}/downloadPaper")]
         [Authorize]
         public async Task<IActionResult> DownloadPaper(int id)
@@ -206,17 +212,37 @@ namespace DongGopTuThien.Controllers
             var nguoiDungHienTai = HttpContext.Items["CurrentUser"] as NguoiDung;
 
             var nguoiDung = await _context.NguoiDungs.FindAsync(id);
-            if (nguoiDung == null || nguoiDung.GiayPhep == null)
+
+            if (nguoiDung == null || nguoiDung.GiayPhep == null || nguoiDung.IdnguoiDung != id)
                 return NotFound("File not found.");
 
-            string contentType = "image/jpeg";
+            // Lấy loại MIME từ byte[]
+            string contentType = GetImageMimeType(nguoiDung.GiayPhep);
+            string fileExtension = contentType.Split('/')[1];
+
             // Optionally, provide a file name
-            string fileName = $"giayto-{id}.jpg";
+            string fileName = $"giayto-{id}.{fileExtension}";
 
 
             // Return the file as a response
             return File(nguoiDung.GiayPhep, contentType, fileName);
         }
 
+        // Phương thức để xác định loại MIME
+        private string GetImageMimeType(byte[] imageData)
+        {
+            // Tạo MemoryStream từ byte array
+            using (var stream = new MemoryStream(imageData))
+            {
+                // Sử dụng Image.DetectFormat để lấy định dạng
+                IImageFormat format = Image.DetectFormat(stream);
+                if (format == null)
+                {
+                    throw new InvalidOperationException("Không thể xác định định dạng ảnh.");
+                }
+
+                return format.DefaultMimeType;
+            }
+        }
     }
 }
