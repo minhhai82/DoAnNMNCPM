@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace DongGopTuThien.Entities;
@@ -38,9 +39,9 @@ public partial class DaQltuThienContext : DbContext
 
     public virtual DbSet<XinTaiTro> XinTaiTros { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=DA_QLTuThien;Persist Security Info=True;User ID=sa;Password=123456;Trust Server Certificate=True");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=DA_QLTuThien;Persist Security Info=True;User ID=sa;Password=123456;Encrypt=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -161,6 +162,7 @@ public partial class DaQltuThienContext : DbContext
             entity.Property(e => e.DienThoai).HasMaxLength(20);
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.MatKhau).HasMaxLength(100);
+            entity.Property(e => e.TenDangNhap).HasMaxLength(50);
             entity.Property(e => e.TenDayDu).HasMaxLength(100);
         });
 
@@ -187,21 +189,21 @@ public partial class DaQltuThienContext : DbContext
 
         modelBuilder.Entity<TaiKhoan>(entity =>
         {
-            entity.HasKey(e => e.IdtaiKhoan).HasName("PK__TaiKhoan__BC5F907C19579AB4");
+            entity.HasKey(e => e.IdtaiKhoan).HasName("PK__TaiKhoan__BC5F907C60FC4A9C");
 
             entity.ToTable("TaiKhoan");
 
             entity.Property(e => e.IdtaiKhoan).HasColumnName("IDTaiKhoan");
-            entity.Property(e => e.IdtoChuc).HasColumnName("IDToChuc");
+            entity.Property(e => e.IdchienDich).HasColumnName("IDChienDich");
             entity.Property(e => e.SoTaiKhoan).HasMaxLength(100);
             entity.Property(e => e.SwiftCode).HasMaxLength(50);
             entity.Property(e => e.TenChuTaiKhoan).HasMaxLength(100);
             entity.Property(e => e.TenNganHang).HasMaxLength(100);
 
-            entity.HasOne(d => d.IdtoChucNavigation).WithMany(p => p.TaiKhoans)
-                .HasForeignKey(d => d.IdtoChuc)
+            entity.HasOne(d => d.IdchienDichNavigation).WithMany(p => p.TaiKhoans)
+                .HasForeignKey(d => d.IdchienDich)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_TaiKhoan_NguoiDung");
+                .HasConstraintName("FK_TaiKhoan_ChienDich");
         });
 
         modelBuilder.Entity<TaiTro>(entity =>

@@ -15,18 +15,6 @@ CREATE TABLE NguoiDung(
 	TrangThai int NOT NULL DEFAULT(0),
 	Loai int NOT NULL DEFAULT(0)
 )
---Tạo bảng TaiKhoan, bảng này dành cho tổ chức và người nhận tài trợ nhập thông tin tài khoản
---ngân hàng vì muốn nhận tiền quyên góp thì phải có tài khoản. Một người sẽ có nhiều tài khoản
-CREATE TABLE TaiKhoan(
-	IDTaiKhoan int NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	IDToChuc int NOT NULL,
-	TenNganHang nvarchar(100) NOT NULL,
-	TenChuTaiKhoan nvarchar(100) NOT NULL,
-	SoTaiKhoan nvarchar(100) NOT NULL,
-	SwiftCode nvarchar(50) NULL,
-	CONSTRAINT FK_TaiKhoan_NguoiDung FOREIGN KEY (IDToChuc) REFERENCES NguoiDung (IDNguoiDung)
-)
-GO
 --Tạo bảng ChienDich
 CREATE TABLE ChienDich(
 	IDChienDich int NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -42,15 +30,18 @@ CREATE TABLE ChienDich(
 	CONSTRAINT FK_ChienDich_NguoiDung FOREIGN KEY (IDToChuc) REFERENCES NguoiDung (IDNguoiDung)
 )
 GO
---Tạo bảng TKChienDich
-CREATE TABLE TKChienDich(
-	IDChienDich int NOT NULL,
-	IDTaiKhoan int NOT NULL,
-	GhiChu nvarchar(250),
-	CONSTRAINT PK_TKChienDich PRIMARY KEY (IDChienDich,IDTaiKhoan),
-	CONSTRAINT FK_TKChienDich_ChienDich FOREIGN KEY (IDChienDich) REFERENCES ChienDich (IDChienDich)
-)
 
+--Tạo bảng TaiKhoan, bảng này dành cho tổ chức và người nhận tài trợ nhập thông tin tài khoản
+--ngân hàng vì muốn nhận tiền quyên góp thì phải có tài khoản. Một người sẽ có nhiều tài khoản
+CREATE TABLE TaiKhoan(
+	IDTaiKhoan int NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	IDChienDich int NOT NULL,
+	TenNganHang nvarchar(100) NOT NULL,
+	TenChuTaiKhoan nvarchar(100) NOT NULL,
+	SoTaiKhoan nvarchar(100) NOT NULL,
+	SwiftCode nvarchar(50) NULL,
+	CONSTRAINT FK_TaiKhoan_ChienDich FOREIGN KEY (IDChienDich) REFERENCES ChienDich (IDChienDich)
+)
 GO
 
 CREATE TABLE DongGop(

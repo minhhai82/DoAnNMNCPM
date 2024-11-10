@@ -7,7 +7,7 @@ public partial class TaiKhoan
 {
     public int IdtaiKhoan { get; set; }
 
-    public int IdtoChuc { get; set; }
+    public int IdchienDich { get; set; }
 
     public string TenNganHang { get; set; } = null!;
 
@@ -17,5 +17,5 @@ public partial class TaiKhoan
 
     public string? SwiftCode { get; set; }
 
-    public virtual NguoiDung IdtoChucNavigation { get; set; } = null!;
+    public virtual ChienDich IdchienDichNavigation { get; set; } = null!;
 }
