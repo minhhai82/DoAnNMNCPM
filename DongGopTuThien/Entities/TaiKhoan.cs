@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Text.Json.Serialization;
 
 namespace DongGopTuThien.Entities;
 
@@ -17,5 +16,6 @@ public partial class TaiKhoan
 
     public string? SwiftCode { get; set; }
 
+    [JsonIgnore]
     public virtual ChienDich IdchienDichNavigation { get; set; } = null!;
 }

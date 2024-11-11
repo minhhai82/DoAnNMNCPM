@@ -13,7 +13,10 @@ namespace DongGopTuThien
             // Add services to the container.
             builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
             builder.Services.AddScoped<IJwtService, JwtService>();
-
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            });
             var twilioConfig = builder.Configuration.GetSection("Twilio").Get<TwilioConfig>();
 
             builder.Services.AddScoped<IOTPService, OTPService>(provider => new OTPService(twilioConfig.AccountSid, twilioConfig.AuthToken, twilioConfig.ServiceId));
