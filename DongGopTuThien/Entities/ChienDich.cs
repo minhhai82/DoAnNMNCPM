@@ -39,3 +39,11 @@ public partial class ChienDich
 
     public virtual ICollection<XinTaiTro> XinTaiTros { get; set; } = new List<XinTaiTro>();
 }
+
+public enum TrangThaiChienDich
+{
+    Draft = 0,
+    Active = 1,
+    Cancelled = 2,
+    Completed = 3
+}

@@ -37,3 +37,11 @@ public partial class NguoiDung
 
     public virtual ICollection<XinTaiTro> XinTaiTros { get; set; } = new List<XinTaiTro>();
 }
+
+public enum TrangThai
+{
+    ChuaXacThuc = 0,
+    XacThucDienThoai = 1,
+    XacThucGiayPhep = 2,
+
+}

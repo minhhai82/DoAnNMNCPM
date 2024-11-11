@@ -72,7 +72,7 @@ namespace DongGopTuThien.Controllers
                         DienThoai = request.DienThoai,
                         TenDayDu = request.TenDayDu,
                         DiaChi = request.DiaChi,
-                        TrangThai = TrangThai.ChuaXacThuc,
+                        TrangThai = (int)TrangThai.ChuaXacThuc,
                         Loai = request.Loai,
                         TenDangNhap = request.Email,
                     };
@@ -159,7 +159,7 @@ namespace DongGopTuThien.Controllers
                 var otpCheck = await _otpService.VerifyOtp(request.DienThoai, request.Code);
                 if (otpCheck)
                 {
-                    nguoiDung.TrangThai = TrangThai.XacThucDienThoai;
+                    nguoiDung.TrangThai = (int)TrangThai.XacThucDienThoai;
                     _context.NguoiDungs.Update(nguoiDung);
                     await _context.SaveChangesAsync();
 
@@ -195,7 +195,7 @@ namespace DongGopTuThien.Controllers
             }
 
             // TAM THOI AUTO VERIFIED 
-            nguoiDung.TrangThai = TrangThai.XacThucGiayPhep;
+            nguoiDung.TrangThai = (int)TrangThai.XacThucGiayPhep;
 
 
             _context.NguoiDungs.Update(nguoiDung);

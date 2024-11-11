@@ -69,7 +69,7 @@ namespace DongGopTuThien.Controllers
 
             var nguoiDung = HttpContext.Items["CurrentUser"] as NguoiDung;
 
-            if (nguoiDung.TrangThai != TrangThai.XacThucGiayPhep)
+            if (nguoiDung.TrangThai != (int)TrangThai.XacThucGiayPhep)
             {
                 return Unauthorized("To chuc chua xac thuc!");
             }
@@ -78,19 +78,6 @@ namespace DongGopTuThien.Controllers
             {
                 using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
-                    // Create TaiKhoan
-                    var tk = new TaiKhoan
-                    {
-                        IdtoChuc = nguoiDung.IdnguoiDung,
-                        TenNganHang = request.TaiKhoan.TenNganHang,
-                        TenChuTaiKhoan = request.TaiKhoan.TenChuTaiKhoan,
-                        SoTaiKhoan = request.TaiKhoan.SoTaiKhoan,
-                        SwiftCode = request.TaiKhoan.SwiftCode,
-                    };
-
-                    _context.TaiKhoans.Add(tk);
-                    await _context.SaveChangesAsync();
-
                     // create chiendich
                     var cd = new ChienDich
                     {
@@ -99,12 +86,26 @@ namespace DongGopTuThien.Controllers
                         NgayBatDau = DateTime.ParseExact(request.NgayBatDau, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToUniversalTime(),
                         NgayKetThuc = DateTime.ParseExact(request.NgayKetThuc, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToUniversalTime(),
                         NganSachDuKien = request.NganSachDuKien,
-                        TrangThai = TrangThaiChienDich.Draft,
+                        TrangThai = (int)TrangThaiChienDich.Draft,
                         IdtoChuc = nguoiDung.IdnguoiDung
                     };
 
- 
+
                     _context.ChienDiches.Add(cd);
+                    await _context.SaveChangesAsync();
+
+                    // Create TaiKhoan
+                    var tk = new TaiKhoan
+                    {
+                        //IdtoChuc = nguoiDung.IdnguoiDung,
+                        IdchienDich = cd.IdchienDich,
+                        TenNganHang = request.TaiKhoan.TenNganHang,
+                        TenChuTaiKhoan = request.TaiKhoan.TenChuTaiKhoan,
+                        SoTaiKhoan = request.TaiKhoan.SoTaiKhoan,
+                        SwiftCode = request.TaiKhoan.SwiftCode,
+                    };
+
+                    _context.TaiKhoans.Add(tk);
                     await _context.SaveChangesAsync();
 
                     // create tk_cd
@@ -149,13 +150,13 @@ namespace DongGopTuThien.Controllers
         {
             var nguoiDung = HttpContext.Items["CurrentUser"] as NguoiDung;
 
-            if (nguoiDung.TrangThai != TrangThai.XacThucGiayPhep)
+            if (nguoiDung.TrangThai != (int)TrangThai.XacThucGiayPhep)
             {
                 return Unauthorized("To chuc chua xac thuc!");
             }
 
             var cd = await _context.ChienDiches.FirstOrDefaultAsync(c => c.IdchienDich == id && c.IdtoChuc == nguoiDung.IdnguoiDung);
-            if (cd == null || cd.TrangThai == TrangThaiChienDich.Completed || cd.TrangThai == TrangThaiChienDich.Cancelled )
+            if (cd == null || cd.TrangThai == (int)TrangThaiChienDich.Completed || cd.TrangThai == (int)TrangThaiChienDich.Cancelled )
             {
                 return BadRequest();
             }
@@ -171,7 +172,7 @@ namespace DongGopTuThien.Controllers
 
                 if (request.TrangThai != null)
                 {
-                    cd.TrangThai = (TrangThaiChienDich)request.TrangThai;
+                    cd.TrangThai = (int)(TrangThaiChienDich)request.TrangThai;
                 }
 
                 _context.ChienDiches.Update(cd);
@@ -193,7 +194,7 @@ namespace DongGopTuThien.Controllers
         {
             var nguoiDung = HttpContext.Items["CurrentUser"] as NguoiDung;
 
-            if (nguoiDung.TrangThai != TrangThai.XacThucGiayPhep)
+            if (nguoiDung.TrangThai != (int)TrangThai.XacThucGiayPhep)
             {
                 return Unauthorized("To chuc chua xac thuc!");
             }
@@ -201,7 +202,7 @@ namespace DongGopTuThien.Controllers
             var cd = await _context.ChienDiches
                 .FirstOrDefaultAsync(c => c.IdchienDich == id && c.IdtoChuc == nguoiDung.IdnguoiDung);
 
-            if (cd == null || cd.TrangThai != TrangThaiChienDich.Draft)
+            if (cd == null || cd.TrangThai != (int)TrangThaiChienDich.Draft)
             {
                 return BadRequest();
             }
