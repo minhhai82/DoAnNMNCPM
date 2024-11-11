@@ -2,7 +2,7 @@ using DongGopTuThien.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using BCrypt.Net;
+using DongGopTuThien.Models;
 
 namespace DongGopTuThien.Controllers
 {
@@ -27,9 +27,22 @@ namespace DongGopTuThien.Controllers
         public async Task<IActionResult> GetAll([FromQuery] GetChienDichsRequest request)
         {
             // Apply any filtering logic here using the `request` object if needed
-            var chienDiches = _context.ChienDiches.ToList();
+            var chienDiches = await _context.ChienDiches
+                                      .Include(p => p.TaiKhoans)
+                                      .ToListAsync();
 
             return Ok(chienDiches);
+        }
+
+        // GET api/ChienDich
+        [HttpGet("GetChienDichByToChuc")]
+        public async Task<ActionResult> GetChienDichByToChuc(int idToChuc)
+        {
+            var chienDiches = await _context.ChienDiches.Where(e => e.IdtoChuc == idToChuc)
+                                             .Include(p => p.TaiKhoans)
+                                             .ToListAsync();
+            return Ok(chienDiches);
+
         }
 
         // API get ChienDich (public API, not authorize)
@@ -37,7 +50,8 @@ namespace DongGopTuThien.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var chienDich = await _context.ChienDiches.FindAsync(id);
+            var chienDich = await _context.ChienDiches.Include(p => p.TaiKhoans).FirstOrDefaultAsync(p => p.IdchienDich == id);
+
             if (chienDich == null)
             {
                 return NotFound();
@@ -108,17 +122,6 @@ namespace DongGopTuThien.Controllers
                     _context.TaiKhoans.Add(tk);
                     await _context.SaveChangesAsync();
 
-                    // create tk_cd
-
-                    var tkcd = new TkchienDich
-                    {
-                        IdchienDich = cd.IdchienDich,
-                        IdtaiKhoan = tk.IdtaiKhoan,
-                    };
-
-                    _context.TkchienDiches.Add(tkcd);
-                    await _context.SaveChangesAsync();
-
                     // Complete the transaction
                     await transaction.CommitAsync();
 
@@ -155,7 +158,7 @@ namespace DongGopTuThien.Controllers
                 return Unauthorized("To chuc chua xac thuc!");
             }
 
-            var cd = await _context.ChienDiches.FirstOrDefaultAsync(c => c.IdchienDich == id && c.IdtoChuc == nguoiDung.IdnguoiDung);
+            var cd = await _context.ChienDiches.Include(p => p.TaiKhoans).FirstOrDefaultAsync(c => c.IdchienDich == id && c.IdtoChuc == nguoiDung.IdnguoiDung);
             if (cd == null || cd.TrangThai == (int)TrangThaiChienDich.Completed || cd.TrangThai == (int)TrangThaiChienDich.Cancelled )
             {
                 return BadRequest();
@@ -170,11 +173,32 @@ namespace DongGopTuThien.Controllers
                 cd.NgayKetThuc = DateTime.ParseExact(request.NgayKetThuc, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToUniversalTime();
                 cd.NganSachDuKien = request.NganSachDuKien;
 
-                if (request.TrangThai != null)
+                if (request.TrangThai >0)
                 {
                     cd.TrangThai = (int)(TrangThaiChienDich)request.TrangThai;
                 }
 
+                var tk = cd.TaiKhoans.FirstOrDefault(p => p.IdtaiKhoan == request.TaiKhoan.IdtaiKhoan);
+
+                if (tk != null)
+                {
+                    tk.TenNganHang = request.TaiKhoan.TenNganHang;
+                    tk.TenChuTaiKhoan = request.TaiKhoan.TenChuTaiKhoan;
+                    tk.SoTaiKhoan = request.TaiKhoan.SoTaiKhoan;
+                    tk.SwiftCode = request.TaiKhoan.SwiftCode;
+                }
+                else
+                {
+                    tk = new TaiKhoan
+                    {
+                        IdchienDich = cd.IdchienDich,
+                        TenNganHang = request.TaiKhoan.TenNganHang,
+                        TenChuTaiKhoan = request.TaiKhoan.TenChuTaiKhoan,
+                        SoTaiKhoan = request.TaiKhoan.SoTaiKhoan,
+                        SwiftCode = request.TaiKhoan.SwiftCode,
+                    };
+                    cd.TaiKhoans.Add(tk);
+                }
                 _context.ChienDiches.Update(cd);
                 await _context.SaveChangesAsync();
 

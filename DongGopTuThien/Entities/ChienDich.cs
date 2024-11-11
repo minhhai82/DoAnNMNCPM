@@ -35,15 +35,5 @@ public partial class ChienDich
 
     public virtual ICollection<TaiTro> TaiTros { get; set; } = new List<TaiTro>();
 
-    public virtual ICollection<TkchienDich> TkchienDiches { get; set; } = new List<TkchienDich>();
-
     public virtual ICollection<XinTaiTro> XinTaiTros { get; set; } = new List<XinTaiTro>();
-}
-
-public enum TrangThaiChienDich
-{
-    Draft = 0,
-    Active = 1,
-    Cancelled = 2,
-    Completed = 3
 }

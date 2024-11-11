@@ -1,4 +1,5 @@
 using DongGopTuThien.Entities;
+using DongGopTuThien.Models;
 using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations;
 
@@ -81,6 +82,8 @@ public class UpdateChienDichRequest
     public decimal NganSachDuKien { get; set; }
 
     public int TrangThai { get; set; }
+
+    public ThongTinTaiKhoan TaiKhoan { get; set; }
 }
 
 

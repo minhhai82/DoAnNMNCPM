@@ -5,6 +5,7 @@ using BCrypt.Net;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using System.IO;
+using DongGopTuThien.Models;
 
 
 namespace DongGopTuThien.Controllers

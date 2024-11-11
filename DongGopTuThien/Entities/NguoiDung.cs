@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DongGopTuThien.Entities;
+﻿namespace DongGopTuThien.Entities;
 
 public partial class NguoiDung
 {
@@ -36,12 +33,4 @@ public partial class NguoiDung
     public virtual ICollection<TaiTro> TaiTros { get; set; } = new List<TaiTro>();
 
     public virtual ICollection<XinTaiTro> XinTaiTros { get; set; } = new List<XinTaiTro>();
-}
-
-public enum TrangThai
-{
-    ChuaXacThuc = 0,
-    XacThucDienThoai = 1,
-    XacThucGiayPhep = 2,
-
 }

@@ -35,8 +35,6 @@ public partial class DaQltuThienContext : DbContext
 
     public virtual DbSet<TaiTro> TaiTros { get; set; }
 
-    public virtual DbSet<TkchienDich> TkchienDiches { get; set; }
-
     public virtual DbSet<XinTaiTro> XinTaiTros { get; set; }
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -227,22 +225,6 @@ public partial class DaQltuThienContext : DbContext
             entity.HasOne(d => d.IdnguoiNhanNavigation).WithMany(p => p.TaiTros)
                 .HasForeignKey(d => d.IdnguoiNhan)
                 .HasConstraintName("FK_TaiTro_NguoiDung");
-        });
-
-        modelBuilder.Entity<TkchienDich>(entity =>
-        {
-            entity.HasKey(e => new { e.IdchienDich, e.IdtaiKhoan });
-
-            entity.ToTable("TKChienDich");
-
-            entity.Property(e => e.IdchienDich).HasColumnName("IDChienDich");
-            entity.Property(e => e.IdtaiKhoan).HasColumnName("IDTaiKhoan");
-            entity.Property(e => e.GhiChu).HasMaxLength(250);
-
-            entity.HasOne(d => d.IdchienDichNavigation).WithMany(p => p.TkchienDiches)
-                .HasForeignKey(d => d.IdchienDich)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_TKChienDich_ChienDich");
         });
 
         modelBuilder.Entity<XinTaiTro>(entity =>
