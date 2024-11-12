@@ -29,6 +29,28 @@ namespace DongGopTuThien.Controllers
             // Apply any filtering logic here using the `request` object if needed
             var chienDiches = await _context.ChienDiches
                                       .Include(p => p.TaiKhoans)
+                                      .Where(cd => cd.TaiKhoans.Any())
+                                      .Select(cd => new
+                                      {
+                                          IDChienDich = cd.IdchienDich,
+                                          Ten = cd.Ten,
+                                          NoiDung = cd.NoiDung,
+                                          NgayBatDau = cd.NgayBatDau,
+                                          NgayKetThuc = cd.NgayKetThuc,
+                                          NganSachDuKien = cd.NganSachDuKien,
+                                          ThucThu = cd.ThucThu,
+                                          ThucChi = cd.ThucChi,
+                                          TrangThai = cd.TrangThai,
+                                          IDToChuc = cd.IdtoChuc,
+                                          taiKhoan = cd.TaiKhoans.Select(tk => new
+                                          {
+                                              idtaiKhoan = tk.IdtaiKhoan,
+                                              tenNganHang = tk.TenNganHang,
+                                              tenChuTaiKhoan = tk.TenChuTaiKhoan,
+                                              soTaiKhoan = tk.SoTaiKhoan,
+                                              swiftCode = tk.SwiftCode
+                                          }).FirstOrDefault()
+                                      })
                                       .ToListAsync();
 
             return Ok(chienDiches);
