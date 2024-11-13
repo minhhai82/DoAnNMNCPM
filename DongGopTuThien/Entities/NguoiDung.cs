@@ -1,4 +1,7 @@
-﻿namespace DongGopTuThien.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace DongGopTuThien.Entities;
 
 public partial class NguoiDung
 {

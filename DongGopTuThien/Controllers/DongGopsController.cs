@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DongGopTuThien.Entities;
+using DongGopTuThien.Models;
 
 namespace DongGopTuThien.Controllers
 {
@@ -81,56 +82,108 @@ namespace DongGopTuThien.Controllers
 
             return dongGop;
         }
-     
-        
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDongGop(int id, DongGop dongGop)
+
+        [HttpPut("verifyDongGop")]
+        public async Task<IActionResult> VerifyDongGop([FromBody] VerifyDongGopRequest request)
         {
-            if (id != dongGop.IddongGop)
+            if (request == null || request.IddongGop <= 0)
             {
                 return BadRequest();
             }
-            //Validate params
-            if (
-                dongGop == null ||
-                dongGop.IdchienDich <= 0 ||
-                dongGop.IddongGop <= 0 ||
-                dongGop.IdnguoiChuyen <= 0 ||
-                dongGop.SoTien <= 0
-                )
+
+            var nguoiDung = HttpContext.Items["CurrentUser"] as NguoiDung;
+
+            if (nguoiDung.TrangThai != (int)TrangThai.XacThucGiayPhep)
             {
-                return BadRequest("Invalid");
+                return Unauthorized("To chuc chua xac thuc!");
             }
 
-            _context.Entry(dongGop).State = EntityState.Modified;
+            var dongGop = await _context.DongGops.FindAsync(request.IddongGop);
 
+            if (dongGop == null || dongGop.IddongGop != request.IddongGop)
+            {
+                return BadRequest();
+            }
+
+            var chienDich = await _context.ChienDiches.FindAsync(dongGop.IdchienDich);
+            if (chienDich == null || chienDich.IdtoChuc != nguoiDung.IdnguoiDung)
+            {
+                return BadRequest();
+            }
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DongGopExists(id))
+                using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                    dongGop.TrangThai = (int)TrangThaiDongGop.DaDuyet;
 
-            return NoContent();
+                    _context.DongGops.Update(dongGop);
+
+                    await _context.SaveChangesAsync();
+
+                    chienDich.ThucThu += dongGop.SoTien;
+
+                    _context.ChienDiches.Update(chienDich);
+
+                    await _context.SaveChangesAsync();
+
+                    return Ok();
+                }            
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                return UnprocessableEntity();
+            }
         }
 
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutDongGop(int id, DongGop dongGop)
+        //{
+        //    if (id != dongGop.IddongGop)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    //Validate params
+        //    if (
+        //        dongGop == null ||
+        //        dongGop.IdchienDich <= 0 ||
+        //        dongGop.IddongGop <= 0 ||
+        //        dongGop.IdnguoiChuyen <= 0 ||
+        //        dongGop.SoTien <= 0
+        //        )
+        //    {
+        //        return BadRequest("Invalid");
+        //    }
+
+        //    _context.Entry(dongGop).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!DongGopExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
+
         [HttpPost]
-        public async Task<ActionResult<DongGop>> PostDongGop(DongGop dongGop)
+        public async Task<ActionResult<DongGop>> PostDongGop([FromBody] CreateDongGopRequest dongGop)
         {
             //Validate params
             if (
                 dongGop == null ||
                 dongGop.IdchienDich<=0 ||
-                dongGop.IddongGop <= 0 ||
                 dongGop.IdnguoiChuyen <= 0 ||
                 dongGop.SoTien <= 0 
                 )
@@ -148,10 +201,28 @@ namespace DongGopTuThien.Controllers
             {
                 return BadRequest();
             }
-            _context.DongGops.Add(dongGop);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDongGop", new { id = dongGop.IddongGop }, dongGop);
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                // create chiendich
+                var cd = new DongGop
+                {
+                    IdchienDich = dongGop.IdchienDich,
+                    IdnguoiChuyen = dongGop.IdnguoiChuyen,
+                    NgayDongGop = dongGop.NgayDongGop,
+                    SoTien = dongGop.SoTien,
+                    TrangThai = (int)TrangThaiDongGop.ChoDuyet,
+                    HinhAnh = dongGop.HinhAnh,
+                    GhiChu = dongGop.GhiChu
+                };
+
+                _context.DongGops.Add(cd);
+                await _context.SaveChangesAsync();
+                // Complete the transaction
+                await transaction.CommitAsync();
+
+                return StatusCode(201, new { IdDongGop = cd.IddongGop });
+            }
         }
 
         [HttpDelete("{id}")]

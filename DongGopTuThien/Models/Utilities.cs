@@ -15,6 +15,13 @@
         Cancelled = 2,
         Completed = 3
     }
+
+    public enum TrangThaiDongGop
+    {
+        ChoDuyet = 0,
+        DaDuyet = 1
+    }
+
     public class Utilities
     {
     }

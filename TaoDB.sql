@@ -52,6 +52,7 @@ CREATE TABLE DongGop(
 	SoTien decimal(18,2) NOT NULL,
 	HinhAnh varbinary(max) NOT NULL,
 	GhiChu nvarchar(250) NOT NULL,
+	TrangThai INT NOT NULL,
 	CONSTRAINT FK_DongGop_NguoiDung FOREIGN KEY (IDNguoiChuyen) REFERENCES NguoiDung (IDNguoiDung),
 	CONSTRAINT FK_DongGop_ChienDich FOREIGN KEY (IDChienDich) REFERENCES ChienDich (IDChienDich)
 )

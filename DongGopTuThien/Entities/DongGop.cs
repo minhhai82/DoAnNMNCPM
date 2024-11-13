@@ -19,6 +19,8 @@ public partial class DongGop
 
     public string GhiChu { get; set; } = null!;
 
+    public int TrangThai { get; set; }
+
     public virtual ChienDich IdchienDichNavigation { get; set; } = null!;
 
     public virtual NguoiDung IdnguoiChuyenNavigation { get; set; } = null!;
