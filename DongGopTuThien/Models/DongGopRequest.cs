@@ -21,9 +21,7 @@ public class DongGopModel
 
 public class CreateDongGopRequest
 {
-    [Required]
-    public int IdnguoiChuyen { get; set; }
-
+ 
     [Required]
     public int IdchienDich { get; set; }
 

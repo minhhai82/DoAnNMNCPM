@@ -184,7 +184,6 @@ namespace DongGopTuThien.Controllers
             if (
                 dongGop == null ||
                 dongGop.IdchienDich<=0 ||
-                dongGop.IdnguoiChuyen <= 0 ||
                 dongGop.SoTien <= 0 
                 )
             {
@@ -197,7 +196,7 @@ namespace DongGopTuThien.Controllers
             }
             var nguoiDung = HttpContext.Items["CurrentUser"] as NguoiDung;
 
-            if (nguoiDung == null || nguoiDung.IdnguoiDung != dongGop.IdnguoiChuyen)
+            if (nguoiDung == null)
             {
                 return BadRequest();
             }
@@ -208,7 +207,7 @@ namespace DongGopTuThien.Controllers
                 var cd = new DongGop
                 {
                     IdchienDich = dongGop.IdchienDich,
-                    IdnguoiChuyen = dongGop.IdnguoiChuyen,
+                    IdnguoiChuyen = nguoiDung.IdnguoiDung,
                     NgayDongGop = dongGop.NgayDongGop,
                     SoTien = dongGop.SoTien,
                     TrangThai = (int)TrangThaiDongGop.ChoDuyet,
