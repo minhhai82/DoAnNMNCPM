@@ -189,7 +189,7 @@ namespace DongGopTuThien.Controllers
             {
                 return BadRequest("Invalid");
             }
-            var chienDich = _context.ChienDiches.FindAsync(dongGop.IdchienDich);
+            var chienDich = await _context.ChienDiches.FindAsync(dongGop.IdchienDich);
             if(chienDich == null)
             {
                 return BadRequest("Chien Dich not found");
@@ -215,7 +215,7 @@ namespace DongGopTuThien.Controllers
                     GhiChu = dongGop.GhiChu
                 };
 
-                _context.DongGops.Add(cd);
+                await _context.DongGops.AddAsync(cd);
                 await _context.SaveChangesAsync();
                 // Complete the transaction
                 await transaction.CommitAsync();
