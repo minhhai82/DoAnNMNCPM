@@ -1,11 +1,14 @@
-﻿using DongGopTuThien.Entities;
+﻿using System;
+using DongGopTuThien.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BCrypt.Net;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using DongGopTuThien.Models;
+using Microsoft.AspNetCore.Http;
 
 
 namespace DongGopTuThien.Controllers
@@ -128,7 +131,7 @@ namespace DongGopTuThien.Controllers
             // Generate token
             var token = _jwtService.GenerateToken(nguoiDung.IdnguoiDung, nguoiDung.Email);
 
-            return Ok(new { NguoiDungId = nguoiDung.IdnguoiDung, Token = token });
+            return Ok(new { NguoiDungId = nguoiDung.IdnguoiDung, Loai = nguoiDung.Loai, Token = token });
         }
 
         // api/NguoiDung/verifyOtp
