@@ -34,7 +34,7 @@ namespace DongGopTuThien.Controllers
             return Utilities.ConvertToDtoList<BanTin, BanTinModel>(list);
         }
 
-        // GET: api/DongGops/5
+        // GET: api/BanTin/5
         [HttpGet("{id}")]
         public async Task<ActionResult<BanTinModel>> GetBanTin(int id)
         {
