@@ -1,6 +1,4 @@
-using DongGopTuThien.Entities;
 using DongGopTuThien.Models;
-using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations;
 
 public class GetChienDichsRequest 

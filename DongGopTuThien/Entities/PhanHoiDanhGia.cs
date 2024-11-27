@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DongGopTuThien.Entities;
 
-public partial class PhanHoiDanhGium
+public partial class PhanHoiDanhGia
 {
     public int IdphanHoi { get; set; }
 

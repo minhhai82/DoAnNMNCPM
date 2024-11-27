@@ -29,7 +29,7 @@ public partial class ChienDich
 
     public virtual NguoiDung IdtoChucNavigation { get; set; } = null!;
 
-    public virtual ICollection<PhanHoiDanhGium> PhanHoiDanhGia { get; set; } = new List<PhanHoiDanhGium>();
+    public virtual ICollection<PhanHoiDanhGia> PhanHoiDanhGia { get; set; } = new List<PhanHoiDanhGia>();
 
     public virtual ICollection<TaiKhoan> TaiKhoans { get; set; } = new List<TaiKhoan>();
 
