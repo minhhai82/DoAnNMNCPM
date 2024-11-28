@@ -1,4 +1,5 @@
 ﻿using DongGopTuThien.Entities;
+using DongGopTuThien.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace DongGopTuThien
@@ -19,6 +20,7 @@ namespace DongGopTuThien
             builder.Services.AddScoped<IOTPService, OTPService>(provider => new OTPService(twilioConfig.AccountSid, twilioConfig.AuthToken, twilioConfig.ServiceId));
 
             builder.Services.AddControllers();
+            builder.Services.AddSignalR();// Add push notification
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -47,6 +49,7 @@ namespace DongGopTuThien
 
 
             app.MapControllers();
+            app.MapHub<NotificationService>("/notificationService"); 
 
             app.Run();
         }
