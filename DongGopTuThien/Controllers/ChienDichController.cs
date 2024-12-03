@@ -198,10 +198,10 @@ namespace DongGopTuThien.Controllers
                 cd.NgayKetThuc = DateTime.ParseExact(request.NgayKetThuc, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToUniversalTime();
                 cd.NganSachDuKien = request.NganSachDuKien;
 
-                if (request.TrangThai >0)
-                {
+                //if (request.TrangThai >0)
+                //{
                     cd.TrangThai = (int)(TrangThaiChienDich)request.TrangThai;
-                }
+                //}
 
                 var tk = cd.TaiKhoans.FirstOrDefault(p => p.IdtaiKhoan == request.TaiKhoan.IdtaiKhoan);
 
