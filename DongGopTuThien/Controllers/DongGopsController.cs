@@ -125,6 +125,8 @@ namespace DongGopTuThien.Controllers
                     _context.ChienDiches.Update(chienDich);
 
                     await _context.SaveChangesAsync();
+                    
+                    await transaction.CommitAsync();
 
                     return Ok();
                 }            
