@@ -5,7 +5,7 @@ using DongGopTuThien.Models;
 
 namespace DongGopTuThien.Controllers
 {
-    [Authorize([0, 1])]
+    [Authorize([0, 1, 3])]
     [Route("api/[controller]")]
     [ApiController]
     public class DongGopsController : ControllerBase
