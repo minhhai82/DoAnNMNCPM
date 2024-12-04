@@ -45,7 +45,10 @@ namespace DongGopTuThien.Controllers
         [HttpGet("Top10DongGops")]
         public async Task<ActionResult<IEnumerable<DongGopModel>>> GetTop10DongGops()
         {
-            var list = await _context.DongGops.OrderByDescending(e => e.NgayDongGop)
+            var list = await _context.DongGops
+                .Include(p => p.IdchienDich)
+                .Include(p => p.IdnguoiChuyen)
+                .OrderByDescending(e => e.NgayDongGop)
                                           .Take(10)              
                                           .ToListAsync();
             List<DongGopModel> retList = new List<DongGopModel>();
