@@ -233,7 +233,7 @@ namespace DongGopTuThien.Controllers
         }
 
         // id: Id cua NguoiDung - ToChucTuThien can xac thuc giay phep 
-        [HttpGet("{id}/VerifyPaper")]
+        [HttpPut("{id}/VerifyPaper")]
         [Authorize]
         public async Task<IActionResult> VerifyPaper(int id)
         {
