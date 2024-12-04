@@ -217,7 +217,7 @@ namespace DongGopTuThien.Controllers
 
             var nguoiDung = await _context.NguoiDungs.FindAsync(id);
 
-            if (nguoiDung == null || nguoiDung.GiayPhep == null || nguoiDung.IdnguoiDung != id)
+            if (nguoiDung == null || nguoiDung.GiayPhep == null)
                 return NotFound("File not found.");
 
             // Lấy loại MIME từ byte[]
@@ -231,6 +231,29 @@ namespace DongGopTuThien.Controllers
             // Return the file as a response
             return File(nguoiDung.GiayPhep, contentType, fileName);
         }
+
+        // id: Id cua NguoiDung - ToChucTuThien can xac thuc giay phep 
+        [HttpGet("{id}/VerifyPaper")]
+        [Authorize]
+        public async Task<IActionResult> VerifyPaper(int id)
+        {
+            var nguoiDungHienTai = HttpContext.Items["CurrentUser"] as NguoiDung;
+
+            var nguoiDung = await _context.NguoiDungs.FindAsync(id);
+
+            if (nguoiDung == null || nguoiDung.GiayPhep == null)
+                return NotFound("File not found.");
+            
+            // if (nguoiDung.TrangThai != (int)TrangThai.XacThucDienThoai) 
+            //     return BadRequest("To chuc chua xac thuc dien thoai");
+
+            nguoiDung.TrangThai = (int)TrangThai.XacThucGiayPhep;
+            _context.NguoiDungs.Update(nguoiDung);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
 
         // Phương thức để xác định loại MIME
         private string GetImageMimeType(byte[] imageData)
