@@ -4,8 +4,7 @@ using DongGopTuThien.Entities;
 using DongGopTuThien.Models;
 
 namespace DongGopTuThien.Controllers
-{
-    [Authorize([0, 1, 3])]
+{ 
     [Route("api/[controller]")]
     [ApiController]
     public class DongGopsController : ControllerBase
@@ -44,11 +43,28 @@ namespace DongGopTuThien.Controllers
 
         // GET: api/GetTop10DongGops
         [HttpGet("Top10DongGops")]
-        public async Task<ActionResult<IEnumerable<DongGop>>> GetTop10DongGops()
+        public async Task<ActionResult<IEnumerable<DongGopModel>>> GetTop10DongGops()
         {
-            return await _context.DongGops.OrderByDescending(e => e.NgayDongGop)
+            var list = await _context.DongGops.OrderByDescending(e => e.NgayDongGop)
                                           .Take(10)              
                                           .ToListAsync();
+            List<DongGopModel> retList = new List<DongGopModel>();
+            foreach (var donggop in list)
+            {
+                retList.Add(new DongGopModel()
+                {
+                    IddongGop = donggop.IddongGop, 
+                    IdnguoiChuyen = donggop.IdnguoiChuyen, 
+                    IdchienDich = donggop.IdchienDich,
+                    NgayDongGop = donggop.NgayDongGop,
+                    SoTien = donggop.SoTien,
+                    GhiChu = donggop.GhiChu,
+                    TrangThai = donggop.TrangThai,
+                    TenNguoiChuyen  = donggop.IdnguoiChuyenNavigation.TenDayDu,
+                    TenChienDich  = donggop.IdchienDichNavigation.Ten
+                });
+            } 
+            return retList;
         }
 
         // GET: api/GetTop10DongGopsByChienDich
@@ -83,6 +99,7 @@ namespace DongGopTuThien.Controllers
             return dongGop;
         }
 
+        [Authorize([0, 1, 3])]
         [HttpPut("verifyDongGop")]
         public async Task<IActionResult> VerifyDongGop([FromBody] VerifyDongGopRequest request)
         {
@@ -178,7 +195,7 @@ namespace DongGopTuThien.Controllers
 
         //    return NoContent();
         //}
-
+        [Authorize([0, 1, 3])]
         [HttpPost]
         public async Task<ActionResult<DongGop>> PostDongGop([FromBody] CreateDongGopRequest dongGop)
         {
@@ -225,7 +242,7 @@ namespace DongGopTuThien.Controllers
                 return StatusCode(201, new { IdDongGop = cd.IddongGop });
             }
         }
-
+        [Authorize([0, 1, 3])]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDongGop(int id)
         {

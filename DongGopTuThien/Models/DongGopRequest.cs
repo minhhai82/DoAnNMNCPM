@@ -12,12 +12,12 @@ public class DongGopModel
     public DateTime NgayDongGop { get; set; }
 
     public decimal SoTien { get; set; }
-
-    public byte[] HinhAnh { get; set; } = null!;
-
     public string GhiChu { get; set; } = null!;
 
     public int TrangThai { get; set; }
+    
+    public string TenNguoiChuyen { get; set; } = null!;
+    public string TenChienDich { get; set; } = null!;
 }
 
 public class CreateDongGopRequest
