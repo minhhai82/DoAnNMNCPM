@@ -28,8 +28,23 @@ namespace DongGopTuThien.Controllers
         [HttpGet("ByChienDich")]
         public async Task<ActionResult<IEnumerable<DongGop>>> GetDongGopsByChienDich(int idChienDich)
         {
-            return await _context.DongGops.Where(e => e.IdchienDich == idChienDich)
-                                          .ToListAsync();
+            var dg =  await _context.DongGops
+                .Include(p => p.IdnguoiChuyenNavigation)
+                .Where(e => e.IdchienDich == idChienDich)
+                .Select(d => new
+                {
+                    IddongGop = d.IddongGop,
+                    IdnguoiChuyen = d.IdnguoiChuyen,
+                    IdchienDich = d.IdchienDich,
+                    NgayDongGop = d.NgayDongGop,
+                    SoTien = d.SoTien,
+                    GhiChu = d.GhiChu,
+                    TrangThai = d.TrangThai,
+                    TenNguoiChuyen = d.IdnguoiChuyenNavigation.TenDayDu,
+                    TenChienDich = d.IdchienDichNavigation.Ten
+                })
+                .ToListAsync();
+            return Ok(dg);
         }
 
 
