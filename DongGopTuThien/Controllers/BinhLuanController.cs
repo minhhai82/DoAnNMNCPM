@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DongGopTuThien.Entities;
 using DongGopTuThien.Models;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace DongGopTuThien.Controllers
 {
-    [Authorize([0, 1])]
+    //[Authorize([0, 1])]
     [Route("api/[controller]")]
     [ApiController]
     public class BinhLuanController : ControllerBase
@@ -34,9 +35,25 @@ namespace DongGopTuThien.Controllers
         [HttpGet("ByBanTin")]
         public async Task<ActionResult<IEnumerable<BinhLuanModel>>> GetBinhLuansByBanTin(int idBanTin)
         {
-            var list = await _context.BinhLuans.Where(e => e.IdbanTin == idBanTin)
-                                          .ToListAsync();
-            return Utilities.ConvertToDtoList<BinhLuan, BinhLuanModel>(list);
+            var query = from bl in _context.BinhLuans
+                        join nd in _context.NguoiDungs
+                        on bl.IdnguoiBinhLuan equals nd.IdnguoiDung into binhLuanGroup
+                        from nd in binhLuanGroup.DefaultIfEmpty()
+                        where bl.IdbanTin == idBanTin
+                        select new
+                        {
+                            idBinhLuan = bl.IdbinhLuan,
+                            idBanTin = bl.IdbanTin,
+                            tenNguoiDung = nd.TenDayDu,
+                            noiDung = bl.NoiDung,
+                            ngayBinhLuan = bl.NgayBinhLuan
+                        };
+            var list = await query.ToListAsync();
+            return Ok(list);
+            //var list = await _context.BinhLuans
+            //    .Where(e => e.IdbanTin == idBanTin)
+            //    .ToListAsync();
+            //return Utilities.ConvertToDtoList<BinhLuan, BinhLuanModel>(list);
         }
 
 
@@ -140,7 +157,7 @@ namespace DongGopTuThien.Controllers
             {
                 return BadRequest("Invalid");
             }
-            var banTin = await _context.BinhLuans.FindAsync(request.IdbanTin);
+            var banTin = await _context.BanTins.FindAsync(request.IdbanTin);
             if(banTin == null)
             {
                 return BadRequest("Ban tin not found");

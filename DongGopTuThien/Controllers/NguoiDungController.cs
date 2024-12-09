@@ -199,7 +199,7 @@ namespace DongGopTuThien.Controllers
             }
 
             // TAM THOI AUTO VERIFIED 
-            nguoiDung.TrangThai = (int)TrangThai.XacThucGiayPhep;
+            //nguoiDung.TrangThai = (int)TrangThai.XacThucGiayPhep;
 
 
             _context.NguoiDungs.Update(nguoiDung);
