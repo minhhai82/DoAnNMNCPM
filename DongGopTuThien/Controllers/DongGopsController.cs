@@ -29,6 +29,7 @@ namespace DongGopTuThien.Controllers
         public async Task<ActionResult<IEnumerable<DongGop>>> GetDongGopsByChienDich(int idChienDich)
         {
             var dg =  await _context.DongGops
+                .Include(p => p.IdchienDichNavigation)        
                 .Include(p => p.IdnguoiChuyenNavigation)
                 .Where(e => e.IdchienDich == idChienDich)
                 .Select(d => new
