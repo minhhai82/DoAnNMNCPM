@@ -36,11 +36,12 @@ namespace DongGopTuThien.Controllers
                         where ph.IdchienDich == idChienDich
                         select new
                         {
-                            idBinhLuan = ph.IdphanHoi,
+                            idPhanHoi = ph.IdphanHoi,
                             idChienDich = ph.IdchienDich,
                             idNguoiDung = ph.IdnguoiPhanHoi,
                             tenNguoiDung = nd.TenDayDu,
                             noiDung = ph.NoiDung,
+                            danhGia = ph.DanhGia,
                             ngayPhanHoi = ph.NgayPhanHoi
                         };
             var list = await query.ToListAsync();
@@ -84,6 +85,7 @@ namespace DongGopTuThien.Controllers
                 //update bantin
                 cd.NoiDung = request.NoiDung;
                 cd.NgayPhanHoi = request.NgayPhanHoi;
+                cd.DanhGia = request.DanhGia;
 
                 _context.PhanHoiDanhGia.Update(cd);
                 await _context.SaveChangesAsync();

@@ -32,6 +32,7 @@ namespace DongGopTuThien.Controllers
             // Apply any filtering logic here using the `request` object if needed
             var chienDiches = await _context.ChienDiches
                                       .Include(p => p.TaiKhoans)
+                                      .Include(p =>p.IdtoChucNavigation)
                                       .Where(cd => cd.TaiKhoans.Any())
                                       .Select(cd => new
                                       {
@@ -45,6 +46,7 @@ namespace DongGopTuThien.Controllers
                                           ThucChi = cd.ThucChi,
                                           TrangThai = cd.TrangThai,
                                           IDToChuc = cd.IdtoChuc,
+                                          TenToChuc = cd.IdtoChucNavigation.TenDayDu,
                                           taiKhoan = cd.TaiKhoans.Select(tk => new
                                           {
                                               idtaiKhoan = tk.IdtaiKhoan,
