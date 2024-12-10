@@ -57,18 +57,6 @@ CREATE TABLE DongGop(
 	CONSTRAINT FK_DongGop_ChienDich FOREIGN KEY (IDChienDich) REFERENCES ChienDich (IDChienDich)
 )
 GO
-CREATE TABLE TaiTro(
-	IDTaiTro int IDENTITY(1,1) PRIMARY KEY,
-	IDNguoiNhan int NULL,
-	IDChienDich int NOT NULL,
-	NgayTaiTro datetime NOT NULL,
-	SoTien decimal(18,2) NOT NULL,
-	HinhAnh varbinary(max) NOT NULL,
-	GhiChu nvarchar(250) NOT NULL,
-	CONSTRAINT FK_TaiTro_NguoiDung FOREIGN KEY (IDNguoiNhan) REFERENCES NguoiDung (IDNguoiDung),
-	CONSTRAINT FK_TaiTro_ChienDich FOREIGN KEY (IDChienDich) REFERENCES ChienDich (IDChienDich)
-)
-GO
 CREATE TABLE XinTaiTro(
 	IDXinTaiTro int IDENTITY(1,1) PRIMARY KEY,
 	IDNguoiNhan int NOT NULL,
@@ -76,8 +64,26 @@ CREATE TABLE XinTaiTro(
 	NoiDung nvarchar(500) NULL,--nội dung xin 
 	PhanHoi nvarchar(500) NULL,--phản hồi của tổ chức
 	TrangThai int NOT NULL DEFAULT(0),--trạng thái 0: chờ duyệt, 1 được duyệt, 2 từ chối
+	TenNganHang nvarchar(100) NOT NULL,
+	TenChuTaiKhoan nvarchar(100) NOT NULL,
+	SoTaiKhoan nvarchar(100) NOT NULL,
+	SwiftCode nvarchar(50) NULL,
 	CONSTRAINT FK_XinTaiTro_NguoiDung FOREIGN KEY (IDNguoiNhan) REFERENCES NguoiDung (IDNguoiDung),
 	CONSTRAINT FK_XinTaiTro_ChienDich FOREIGN KEY (IDChienDich) REFERENCES ChienDich (IDChienDich)
+)
+GO
+CREATE TABLE TaiTro(
+	IDTaiTro int IDENTITY(1,1) PRIMARY KEY,
+	IDNguoiNhan int NULL,
+	IDChienDich int NOT NULL,
+	IDXinTaiTro int NOT NULL,
+	NgayTaiTro datetime NOT NULL,
+	SoTien decimal(18,2) NOT NULL,
+	HinhAnh varbinary(max) NOT NULL,
+	GhiChu nvarchar(250) NOT NULL,
+	CONSTRAINT FK_TaiTro_NguoiDung FOREIGN KEY (IDNguoiNhan) REFERENCES NguoiDung (IDNguoiDung),
+	CONSTRAINT FK_TaiTro_XinTaiTro FOREIGN KEY (IDXinTaiTro) REFERENCES XinTaiTro (IDXinTaiTro),
+	CONSTRAINT FK_TaiTro_ChienDich FOREIGN KEY (IDChienDich) REFERENCES ChienDich (IDChienDich)
 )
 GO
 CREATE TABLE PhanHoiDanhGia(
