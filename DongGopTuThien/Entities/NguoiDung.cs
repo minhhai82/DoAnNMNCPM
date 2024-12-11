@@ -31,7 +31,7 @@ public partial class NguoiDung
 
     public virtual ICollection<DongGop> DongGops { get; set; } = new List<DongGop>();
 
-    public virtual ICollection<PhanHoiDanhGium> PhanHoiDanhGia { get; set; } = new List<PhanHoiDanhGium>();
+    public virtual ICollection<PhanHoiDanhGia> PhanHoiDanhGia { get; set; } = new List<PhanHoiDanhGia>();
 
     public virtual ICollection<TaiTro> TaiTros { get; set; } = new List<TaiTro>();
 

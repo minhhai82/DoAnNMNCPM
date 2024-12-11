@@ -164,7 +164,7 @@ public partial class DaQltuThienContext : DbContext
             entity.Property(e => e.TenDayDu).HasMaxLength(100);
         });
 
-        modelBuilder.Entity<PhanHoiDanhGium>(entity =>
+        modelBuilder.Entity<PhanHoiDanhGia>(entity =>
         {
             entity.HasKey(e => e.IdphanHoi).HasName("PK__PhanHoiD__834B20A9B13222BC");
 
