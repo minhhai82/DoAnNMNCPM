@@ -24,6 +24,13 @@ namespace DongGopTuThien.Models
         DaDuyet = 1
     }
 
+    public enum TrangThaiXinTaiTro
+    {
+        ChoDuyet = 0,
+        DuocDuyet = 1,
+        TuChoi = 2,
+    }
+
     public enum Loai
     {
         Admin = 0,

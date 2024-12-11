@@ -118,7 +118,7 @@ namespace DongGopTuThien.Controllers
             return dongGop;
         }
 
-        [Authorize([0, 1, 3])]
+        [Authorize([0, 3])]
         [HttpPut("verifyDongGop")]
         public async Task<IActionResult> VerifyDongGop([FromBody] VerifyDongGopRequest request)
         {

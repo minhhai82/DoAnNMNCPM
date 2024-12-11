@@ -11,6 +11,8 @@ public partial class TaiTro
 
     public int IdchienDich { get; set; }
 
+    public int IdxinTaiTro { get; set; }
+
     public DateTime NgayTaiTro { get; set; }
 
     public decimal SoTien { get; set; }
@@ -22,4 +24,6 @@ public partial class TaiTro
     public virtual ChienDich IdchienDichNavigation { get; set; } = null!;
 
     public virtual NguoiDung? IdnguoiNhanNavigation { get; set; }
+
+    public virtual XinTaiTro IdxinTaiTroNavigation { get; set; } = null!;
 }
