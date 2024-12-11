@@ -29,7 +29,7 @@ public partial class DaQltuThienContext : DbContext
 
     public virtual DbSet<NguoiDung> NguoiDungs { get; set; }
 
-    public virtual DbSet<PhanHoiDanhGium> PhanHoiDanhGia { get; set; }
+    public virtual DbSet<PhanHoiDanhGia> PhanHoiDanhGia { get; set; }
 
     public virtual DbSet<TaiKhoan> TaiKhoans { get; set; }
 
