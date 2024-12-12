@@ -19,6 +19,10 @@ namespace DongGopTuThien
 
             builder.Services.AddScoped<IOTPService, OTPService>(provider => new OTPService(twilioConfig.AccountSid, twilioConfig.AuthToken, twilioConfig.ServiceId));
 
+            var smtpConfig = builder.Configuration.GetSection("SMTPConfig").Get<SmtpConfiguration>();
+
+            builder.Services.AddSingleton<ISMTPService, SMTPService>(provider => new SMTPService(smtpConfig));
+
             builder.Services.AddControllers();
             builder.Services.AddSignalR();// Add push notification
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

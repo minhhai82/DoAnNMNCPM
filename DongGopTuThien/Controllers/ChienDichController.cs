@@ -1,11 +1,9 @@
-using System;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DongGopTuThien.Entities;
 using DongGopTuThien.Models;
+using DongGopTuThien.Services;
 
 namespace DongGopTuThien.Controllers
 {
@@ -14,13 +12,13 @@ namespace DongGopTuThien.Controllers
     public class ChienDichController : ControllerBase
     {
         private DaQltuThienContext _context;
-        private readonly IJwtService _jwtService;
+        private readonly ISMTPService _sMTPService;
 
-        public ChienDichController(DaQltuThienContext ctx, IJwtService jwtService)
+        public ChienDichController(DaQltuThienContext ctx, ISMTPService sMTPService)
         {
             _context = ctx;
-            _jwtService = jwtService;
-           
+            _sMTPService = sMTPService;
+
         }
 
 
@@ -228,6 +226,14 @@ namespace DongGopTuThien.Controllers
                 }
                 _context.ChienDiches.Update(cd);
                 await _context.SaveChangesAsync();
+                //send email thông báo đến các thành viên quyên góp
+                var emails = _context.DongGops.Where(dg => dg.IdchienDich == id)
+                                 .Select(dg => new { dg.IdnguoiChuyenNavigation.Email, dg.IdnguoiChuyenNavigation.TenDayDu })
+                                 .Distinct()
+                                 .ToDictionary(user => user.Email, user => user.TenDayDu);
+                var subject = $"Chiến dịch {request.Ten} has updated";
+                var body = $"Kính chào các nhà hảo tâm\r\n Chiến dịch mà các bạn đang hỗ trợ đã được tổ chức {nguoiDung.TenDayDu} cập nhật mới.\r\n Cảm ơn, \r\nQuản trị viên.";
+                _sMTPService.SendEmailsAsync(emails, subject, body);
 
             }
             catch (Exception ex) {
