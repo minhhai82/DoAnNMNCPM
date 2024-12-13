@@ -18,26 +18,46 @@ namespace DongGopTuThien.Controllers
         // GET: api/XinTaiTro/5
         [Authorize([0, 2, 3])]
         [HttpGet("{id}")]
-        public async Task<ActionResult<XinTaiTroModel>> GetXinTaiTro(int id)
+        public async Task<ActionResult> GetXinTaiTro(int id)
         {
-            var xinTaiTro = await _context.XinTaiTros.FindAsync(id);
+            var xinTaiTro = await _context.XinTaiTros
+                .Where( x => x.IdxinTaiTro == id)
+                .Select( x => new
+                {
+                    x.IdxinTaiTro,
+                    x.PhanHoi,
+                    x.TrangThai,
+                    hinhAnh = x.TaiTros
+                        .Where(t => t.IdxinTaiTro == x.IdxinTaiTro)
+                        .Select(t => t.HinhAnh)
+                        .FirstOrDefault(),
+                    ngayTaiTro = x.TaiTros
+                        .Where(t => t.IdxinTaiTro == x.IdxinTaiTro)
+                        .Select(t => t.NgayTaiTro)
+                        .FirstOrDefault()
+                }
+                )
+                .FirstOrDefaultAsync();
 
             if (xinTaiTro == null)
             {
                 return NotFound();
             }
 
-            return Utilities.ConvertToDto<XinTaiTro, XinTaiTroModel>(xinTaiTro);
+            return Ok(xinTaiTro);
+
+            //return Utilities.ConvertToDto<XinTaiTro, XinTaiTroModel>(xinTaiTro);
         }
 
         // GET: api/XinTaiTro/GetXinTaiTrosByChienDich
-        [Authorize([0, 2, 3])]
+        [Authorize([0, 1, 2, 3])]
         [HttpGet("ByChienDich")]
         public async Task<ActionResult<IEnumerable<XinTaiTro>>> GetXinTaiTrosByChienDich(int idChienDich)
         {
             var dg = await _context.XinTaiTros
                 .Include(p => p.IdchienDichNavigation)
                 .Include(p => p.IdnguoiNhanNavigation)
+                .Include(p => p.TaiTros)
                 .Where(e => e.IdchienDich == idChienDich)
                 .Select(d => new
                 {
@@ -51,6 +71,14 @@ namespace DongGopTuThien.Controllers
                     TenNganHang = d.TenNganHang,
                     SwiftCode = d.SwiftCode,
                     SoTaiKhoan = d.SoTaiKhoan,
+                    NgayTaiTro = d.TaiTros
+                        .Where(t => t.IdxinTaiTro == d.IdxinTaiTro)
+                        .Select(t => t.NgayTaiTro.ToString("yyyy-MM-dd HH:mm:ss"))
+                        .FirstOrDefault(),
+                    SoTien = d.TaiTros
+                        .Where(t => t.IdxinTaiTro == d.IdxinTaiTro)
+                        .Select(t => t.SoTien)
+                        .FirstOrDefault(),
                     TenNguoiNhan = d.IdnguoiNhanNavigation.TenDayDu,
                     TenChienDich = d.IdchienDichNavigation.Ten
                 })

@@ -131,7 +131,7 @@ namespace DongGopTuThien.Controllers
             // Generate token
             var token = _jwtService.GenerateToken(nguoiDung.IdnguoiDung, nguoiDung.Email);
 
-            return Ok(new { NguoiDungId = nguoiDung.IdnguoiDung, Loai = nguoiDung.Loai, Token = token });
+            return Ok(new { NguoiDungId = nguoiDung.IdnguoiDung, Loai = nguoiDung.Loai, Token = token , Status = nguoiDung.TrangThai });
         }
 
         // api/NguoiDung/verifyOtp

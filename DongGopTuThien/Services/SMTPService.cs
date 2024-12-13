@@ -40,6 +40,24 @@ namespace DongGopTuThien.Services
                     await client.AuthenticateAsync(_smtpConfig.UserName, _smtpConfig.Password);
                     await client.SendAsync(message);
                 }
+                catch (MailKit.Net.Smtp.SmtpCommandException ex)
+                {
+                    // Xử lý lỗi khi có vấn đề với lệnh SMTP
+                    Console.WriteLine($"SMTP Command Error: {ex.StatusCode} - {ex.Message}");
+                    throw;
+                }
+                catch (MailKit.Net.Smtp.SmtpProtocolException ex)
+                {
+                    // Xử lý lỗi giao thức SMTP
+                    Console.WriteLine($"SMTP Protocol Error: {ex.Message}");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý các lỗi chung khác
+                    Console.WriteLine($"Unexpected Error: {ex.Message}");
+                    throw;
+                }
                 finally
                 {
                     await client.DisconnectAsync(true);
