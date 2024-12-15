@@ -36,15 +36,22 @@ public class OTPService : IOTPService
     public async Task<bool> SendOtp(string phoneNumber)
     {
         // Send OTP via SMS
-        var verification = await VerificationResource.CreateAsync(
+        try
+        {
+            var verification = await VerificationResource.CreateAsync(
                to: phoneNumber,
                channel: "sms",
                pathServiceSid: _twilioServiceId);
 
-        if(verification.Status == "pending") {
-            return true;
+            if (verification.Status == "pending")
+            {
+                return true;
+            }
+            return false;
+        } catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
         }
-        return false;
     }
 
     public async Task<bool> VerifyOtp(string phoneNumber, string code)

@@ -85,7 +85,13 @@ namespace DongGopTuThien.Controllers
                     await _context.SaveChangesAsync();
 
                     // send SMS
-                    _otpService.SendOtp(request.DienThoai);
+                    try {
+                        await _otpService.SendOtp(request.DienThoai);
+                    } catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                        return StatusCode(401, new { msg = ex.Message });
+                    }
 
                     var token = _jwtService.GenerateToken(nguoiDung.IdnguoiDung, nguoiDung.Email);
 
