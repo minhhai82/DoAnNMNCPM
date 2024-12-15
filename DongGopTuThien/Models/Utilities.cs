@@ -7,6 +7,7 @@ namespace DongGopTuThien.Models
         ChuaXacThuc = 0,
         XacThucDienThoai = 1,
         XacThucGiayPhep = 2,
+        NgungHoatDong = 3
 
     }
 
